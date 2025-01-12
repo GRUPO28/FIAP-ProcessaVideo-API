@@ -1,11 +1,21 @@
+using FIAP_ProcessaVideo_API.Infrastructure.DependencyInjection;
+using System.Text.Json.Serialization;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Configuration
+       .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
+       .AddEnvironmentVariables();
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Add services to the container.
+builder.Services.AddControllers()
+                .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//Mudeles
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 

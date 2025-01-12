@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FIAP_ProcessaVideo_API.Common.Exceptions
+namespace FIAP_ProcessaVideo_API.Common.Exceptions;
+
+public abstract class NotificationException : Exception
 {
-    public abstract class NotificationException : Exception
-    {
-        protected NotificationException(string message) : base(message) 
-        { }
-    }
+    protected NotificationException(string message) : base(message) 
+    { }
 }
