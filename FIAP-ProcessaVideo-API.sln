@@ -7,6 +7,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{11CD4674-EEE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIAP-ProcessaVideo-API", "src\FIAP-ProcessaVideo-API\FIAP-ProcessaVideo-API.csproj", "{5B97C791-5B0E-4795-83DE-C79BB8024D65}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{AA2B8509-3923-4B78-A79C-C880DD8A036F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIAP-ProcessaVideo-API.Application", "src\Modules\FIAP-ProcessaVideo-API.Application\FIAP-ProcessaVideo-API.Application.csproj", "{1715358D-55CC-45AE-B3E6-187141A801F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIAP-ProcessaVideo-API.Infrastructure", "FIAP-ProcessaVideo-API.Infrastructure\FIAP-ProcessaVideo-API.Infrastructure.csproj", "{D8F95B98-ED13-40CF-B396-1E3BADC37EC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIAP-ProcessaVideo-API.Domain", "FIAP-ProcessaVideo-API.Domain\FIAP-ProcessaVideo-API.Domain.csproj", "{0EA1C482-34F2-403D-8724-6F3936901D80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIAP-ProcessaVideo-API.Common", "FIAP-ProcessaVideo-API.Common\FIAP-ProcessaVideo-API.Common.csproj", "{9A498CDE-B4B9-4CAD-8ABE-A36D29D9ECC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,11 +27,35 @@ Global
 		{5B97C791-5B0E-4795-83DE-C79BB8024D65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B97C791-5B0E-4795-83DE-C79BB8024D65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B97C791-5B0E-4795-83DE-C79BB8024D65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1715358D-55CC-45AE-B3E6-187141A801F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1715358D-55CC-45AE-B3E6-187141A801F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1715358D-55CC-45AE-B3E6-187141A801F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1715358D-55CC-45AE-B3E6-187141A801F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8F95B98-ED13-40CF-B396-1E3BADC37EC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8F95B98-ED13-40CF-B396-1E3BADC37EC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8F95B98-ED13-40CF-B396-1E3BADC37EC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8F95B98-ED13-40CF-B396-1E3BADC37EC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EA1C482-34F2-403D-8724-6F3936901D80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EA1C482-34F2-403D-8724-6F3936901D80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EA1C482-34F2-403D-8724-6F3936901D80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EA1C482-34F2-403D-8724-6F3936901D80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A498CDE-B4B9-4CAD-8ABE-A36D29D9ECC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A498CDE-B4B9-4CAD-8ABE-A36D29D9ECC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A498CDE-B4B9-4CAD-8ABE-A36D29D9ECC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A498CDE-B4B9-4CAD-8ABE-A36D29D9ECC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5B97C791-5B0E-4795-83DE-C79BB8024D65} = {11CD4674-EEEF-44FE-8695-D30C8D543141}
+		{AA2B8509-3923-4B78-A79C-C880DD8A036F} = {11CD4674-EEEF-44FE-8695-D30C8D543141}
+		{1715358D-55CC-45AE-B3E6-187141A801F2} = {AA2B8509-3923-4B78-A79C-C880DD8A036F}
+		{D8F95B98-ED13-40CF-B396-1E3BADC37EC0} = {AA2B8509-3923-4B78-A79C-C880DD8A036F}
+		{0EA1C482-34F2-403D-8724-6F3936901D80} = {AA2B8509-3923-4B78-A79C-C880DD8A036F}
+		{9A498CDE-B4B9-4CAD-8ABE-A36D29D9ECC1} = {AA2B8509-3923-4B78-A79C-C880DD8A036F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {575AB179-7110-4421-A9BC-1D55AA07890F}
 	EndGlobalSection
 EndGlobal
