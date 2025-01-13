@@ -1,8 +1,10 @@
 ﻿using Amazon;
 using Amazon.DynamoDBv2;
+using Amazon.S3;
+using FIAP_ProcessaVideo_API.Application.Abstractions;
 using FIAP_ProcessaVideo_API.Domain.Abstractions;
-using FIAP_ProcessaVideo_API.Infrastructure.Repositories;
 using FIAP_ProcessaVideo_API.Infrastructure.Repositories.DynamoDb;
+using FIAP_ProcessaVideo_API.Infrastructure.Services.S3;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,17 +23,23 @@ public static class DependecyInjection
     {
         services.Configure<DatabaseSettings>(options =>
         {
-            options.TableName = configuration.GetSection("DatabaseSettings:TableName").Value;
+            options.TableName = configuration.GetSection("DatabaseSettings").Value;
+            // Bind other properties of DatabaseSettings similarly
+        });
+
+        services.Configure<S3Settings>(options =>
+        {
+            options.BucketName = configuration.GetSection("AWSS3").Value;
             // Bind other properties of DatabaseSettings similarly
         });
 
         services.AddSingleton<IAmazonDynamoDB>(_ => new AmazonDynamoDBClient(RegionEndpoint.USEast1));
+        services.AddSingleton<IAmazonS3>(_ => new AmazonS3Client(RegionEndpoint.USEast1));
     }
 
     private static void RegistrarServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IVideoRepository, VideoRepository>();
-
-
+        services.AddScoped<IVideoUploadService, VideoUploadService>();
     }
 }
