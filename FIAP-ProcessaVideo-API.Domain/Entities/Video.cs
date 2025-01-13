@@ -5,14 +5,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace FIAP_ProcessaVideo_API.Domain.Entities;
 
 public class Video : Entity
 {
+    [JsonPropertyName("url")]
     public string Url { get; private set; }
+
+    [JsonPropertyName("status")]
     public  StatusProcessamento Status { get; private set; }
+
+    [JsonPropertyName("id_usuario")]
     public  string Id_Usuario { get; private set; }
 
 

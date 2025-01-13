@@ -66,6 +66,30 @@ public class VideoRepository(IAmazonDynamoDB dynamoDB, IOptions<DatabaseSettings
         return videos;
     }
 
+    public async Task<Video> GetById(string id)
+    {
+        var request = new GetItemRequest
+        {
+            TableName = _databaseSettings.Value.TableName,
+            Key = new Dictionary<string, AttributeValue>
+            {
+                { "Id", new AttributeValue { S = id }}
+            }
+        };
+
+        var response = await _dynamoDB.GetItemAsync(request);
+
+        if (response.Item is null || !response.Item.Any())
+        {
+            return null;
+        }
+
+        var document = Document.FromAttributeMap(response.Item);
+        var video = JsonSerializer.Deserialize<Video>(document.ToJson());
+
+        return video;
+    }
+
     public async Task<bool> DeleteAsync(string id)
     {
         var deleteItemRequest = new DeleteItemRequest
