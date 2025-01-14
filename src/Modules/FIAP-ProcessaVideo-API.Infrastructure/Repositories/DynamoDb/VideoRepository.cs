@@ -3,7 +3,6 @@ using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
 using FIAP_ProcessaVideo_API.Domain.Abstractions;
 using FIAP_ProcessaVideo_API.Domain.Entities;
-using FIAP_ProcessaVideo_API.Infrastructure.Repositories.DynamoDb;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -12,7 +11,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace FIAP_ProcessaVideo_API.Infrastructure.Repositories;
+namespace FIAP_ProcessaVideo_API.Infrastructure.Repositories.DynamoDb;
 
 public class VideoRepository(IAmazonDynamoDB dynamoDB, IOptions<DatabaseSettings> databaseSettings) : IVideoRepository
 {
@@ -27,7 +26,7 @@ public class VideoRepository(IAmazonDynamoDB dynamoDB, IOptions<DatabaseSettings
 
         var createItemRequest = new PutItemRequest
         {
-            
+
             TableName = _databaseSettings.Value.TableName,
             Item = itemAsAttributes
         };
@@ -59,7 +58,7 @@ public class VideoRepository(IAmazonDynamoDB dynamoDB, IOptions<DatabaseSettings
             var document = Document.FromAttributeMap(item);
             var video = JsonSerializer.Deserialize<Video>(document.ToJson());
 
-            if(video is not null)
+            if (video is not null)
                 videos.Add(video);
         }
 
