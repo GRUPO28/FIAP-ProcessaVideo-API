@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace FIAP_ProcessaVideo_API.Application.Abstractions;
 
-public interface IVideoUploadService
+public interface IUseCase<TRequest, TResponse>
 {
-    Task<string> UploadVideoAsync(Stream videoStream, string fileName);
-    Task<bool> VideoExistsAsync(string fileName);
+    Task<TResponse> ExecuteAsync(TRequest request);
+}
+
+public interface IUseCase<TRequest>
+{
+    Task ExecuteAsync(TRequest request);
 }

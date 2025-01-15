@@ -1,6 +1,5 @@
 ﻿using Amazon.S3.Transfer;
 using Amazon.S3;
-using FIAP_ProcessaVideo_API.Common.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using FIAP_ProcessaVideo_API.Application.Abstractions;
+using Amazon.S3.Model;
 
 namespace FIAP_ProcessaVideo_API.Infrastructure.Services.S3;
 
@@ -30,7 +30,7 @@ public class VideoUploadService : IVideoUploadService
             throw new Exception("Nenhum arquivo de vídeo foi enviado.");
         }
   
-        var keyName = $"{Guid.NewGuid()}_{fileName}"; // Usa um GUID para garantir que o nome seja único
+        var keyName = $"{Guid.NewGuid()}_{fileName}";
 
         try
         {
@@ -40,7 +40,7 @@ public class VideoUploadService : IVideoUploadService
                 InputStream = videoStream,
                 BucketName = _bucketName,
                 Key = keyName,
-                ContentType = "video/mp4" // Ajuste conforme necessário
+                ContentType = "video/mp4"
             };
 
             var transferUtility = new TransferUtility(_amazonS3);
@@ -55,5 +55,31 @@ public class VideoUploadService : IVideoUploadService
             throw new Exception("Erro ao fazer upload do vídeo", ex);
         }
 
+    }
+
+    public async Task<bool> VideoExistsAsync(string fileName)
+    {
+        try
+        {
+            var request = new GetObjectMetadataRequest
+            {
+                BucketName = _bucketName,
+                Key = fileName
+            };
+
+            var response = await _amazonS3.GetObjectMetadataAsync(request);
+
+            if(response == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+        catch (Exception e)
+        {
+
+            throw new Exception("Erro ao verificar se o vídeo existe no S3", e);
+        }
     }
 }

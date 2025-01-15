@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Modules\FIAP-ProcessaVideo-API.Application\FIAP-ProcessaVideo-API.Application.csproj" />
     <ProjectReference Include="..\Modules\FIAP-ProcessaVideo-API.Infrastructure\FIAP-ProcessaVideo-API.Infrastructure.csproj" />
   </ItemGroup>
 

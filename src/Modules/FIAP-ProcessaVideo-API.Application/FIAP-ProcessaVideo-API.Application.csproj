@@ -8,17 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\" />
-    <Folder Include="UseCases\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AWSSDK.S3" Version="3.7.411.6" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\FIAP-ProcessaVideo-API.Common\FIAP-ProcessaVideo-API.Common.csproj" />
+    <ProjectReference Include="..\FIAP-ProcessaVideo-API.Common\FIAP-ProcessaVideo-API.Common.csproj" />
+    <ProjectReference Include="..\FIAP-ProcessaVideo-API.Domain\FIAP-ProcessaVideo-API.Domain.csproj" />
   </ItemGroup>
 
 </Project>

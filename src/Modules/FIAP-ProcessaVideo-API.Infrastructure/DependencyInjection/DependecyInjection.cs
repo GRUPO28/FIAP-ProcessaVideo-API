@@ -2,6 +2,8 @@
 using Amazon.DynamoDBv2;
 using Amazon.S3;
 using FIAP_ProcessaVideo_API.Application.Abstractions;
+using FIAP_ProcessaVideo_API.Application.UseCases.SolicitarProcessamento;
+using FIAP_ProcessaVideo_API.Application.UseCases.SolicitarReProcessamento;
 using FIAP_ProcessaVideo_API.Domain.Abstractions;
 using FIAP_ProcessaVideo_API.Infrastructure.Repositories.DynamoDb;
 using FIAP_ProcessaVideo_API.Infrastructure.Services.S3;
@@ -41,5 +43,8 @@ public static class DependecyInjection
     {
         services.AddScoped<IVideoRepository, VideoRepository>();
         services.AddScoped<IVideoUploadService, VideoUploadService>();
+
+        services.AddScoped<IUseCase<SolicitarProcessamentoRequest, bool>, SolicitarProcessamentoUseCase>();
+        services.AddScoped<IUseCase<string, bool>, SolicitarReProcessamentoUseCase>();
     }
 }
