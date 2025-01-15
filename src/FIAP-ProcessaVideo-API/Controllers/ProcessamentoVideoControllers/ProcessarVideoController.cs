@@ -15,7 +15,7 @@ public class ProcessarVideoController(
 
 
     [HttpPost]
-    public async Task<ActionResult> Processar([FromBody] SolicitarProcessamentoRequest request)
+    public async Task<ActionResult> Processar([FromForm] SolicitarProcessamentoRequest request)
     {
         try
         {

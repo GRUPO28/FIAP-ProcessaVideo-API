@@ -23,15 +23,17 @@ public static class DependecyInjection
 
     private static void RegistrarContext(this IServiceCollection services, IConfiguration configuration)
     {
+        var teste = configuration.GetSection("Database:TableName").Value;
+        var teste1 = configuration.GetSection("AWSS3:BucketName").Value;
         services.Configure<DatabaseSettings>(options =>
         {
-            options.TableName = configuration.GetSection("DatabaseSettings").Value;
+            options.TableName = configuration.GetSection("Database:TableName").Value;
             // Bind other properties of DatabaseSettings similarly
         });
 
         services.Configure<S3Settings>(options =>
         {
-            options.BucketName = configuration.GetSection("AWSS3").Value;
+            options.BucketName = configuration.GetSection("AWSS3:BucketName").Value;
             // Bind other properties of DatabaseSettings similarly
         });
 
