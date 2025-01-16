@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FIAP-ProcessaVideo-API.Application\FIAP-ProcessaVideo-API.Application.csproj" />
+    <ProjectReference Include="..\FIAP-ProcessaVideo-API.Common\FIAP-ProcessaVideo-API.Common.csproj" />
     <ProjectReference Include="..\FIAP-ProcessaVideo-API.Domain\FIAP-ProcessaVideo-API.Domain.csproj" />
   </ItemGroup>
 

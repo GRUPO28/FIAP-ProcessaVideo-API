@@ -29,13 +29,11 @@ public static class DependecyInjection
         services.Configure<DatabaseSettings>(options =>
         {
             options.TableName = configuration.GetSection("Database:TableName").Value;
-            // Bind other properties of DatabaseSettings similarly
         });
 
         services.Configure<S3Settings>(options =>
         {
             options.BucketName = configuration.GetSection("AWSS3:BucketName").Value;
-            // Bind other properties of DatabaseSettings similarly
         });
 
         services.AddSingleton<IAmazonDynamoDB>(_ => new AmazonDynamoDBClient(RegionEndpoint.USEast1));

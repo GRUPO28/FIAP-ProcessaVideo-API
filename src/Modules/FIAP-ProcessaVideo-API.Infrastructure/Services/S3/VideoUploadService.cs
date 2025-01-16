@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using FIAP_ProcessaVideo_API.Application.Abstractions;
 using Amazon.S3.Model;
+using FIAP_ProcessaVideo_API.Common.Exceptions;
 
 namespace FIAP_ProcessaVideo_API.Infrastructure.Services.S3;
 
@@ -27,7 +28,7 @@ public class VideoUploadService : IVideoUploadService
 
         if (videoStream == null || videoStream.Length == 0)
         {
-            throw new Exception("Nenhum arquivo de vídeo foi enviado.");
+            throw new InfrastructureNotificationException("Nenhum arquivo de vídeo foi enviado.");
         }
   
         var keyName = $"{Guid.NewGuid()}_{fileName}";
@@ -49,7 +50,7 @@ public class VideoUploadService : IVideoUploadService
         }
         catch (Exception ex)
         {
-            throw new Exception("Erro ao fazer upload do vídeo", ex);
+            throw new InfrastructureNotificationException("Erro ao fazer upload do vídeo.");
         }
 
     }
@@ -76,7 +77,7 @@ public class VideoUploadService : IVideoUploadService
         catch (Exception e)
         {
 
-            throw new Exception("Erro ao verificar se o vídeo existe no S3", e);
+            throw new InfrastructureNotificationException("Erro ao verificar se o vídeo existe no S3");
         }
     }
 }

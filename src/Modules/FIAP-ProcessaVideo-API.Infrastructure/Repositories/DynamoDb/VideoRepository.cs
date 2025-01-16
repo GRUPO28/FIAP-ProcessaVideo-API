@@ -41,7 +41,7 @@ public class VideoRepository(IAmazonDynamoDB dynamoDB, IOptions<DatabaseSettings
         var request = new QueryRequest
         {
             TableName = _databaseSettings.Value.TableName,
-            IndexName = "IdUsuarioIndex", // Nome do seu índice secundário
+            IndexName = "IdUsuarioIndex",
             KeyConditionExpression = "Id_Usuario = :idUsuario",
             ExpressionAttributeValues = new Dictionary<string, AttributeValue>
             {

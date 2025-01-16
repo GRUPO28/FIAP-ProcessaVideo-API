@@ -1,4 +1,5 @@
 ﻿using FIAP_ProcessaVideo_API.Application.Abstractions;
+using FIAP_ProcessaVideo_API.Common.Exceptions;
 using FIAP_ProcessaVideo_API.Domain.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ public class SolicitarReProcessamentoUseCase(IVideoUploadService videoUpload, IV
 
         if (videoNoHistorico == null)
         {
-            throw new Exception("Video não encontrado");
+            throw new ApplicationNotificationException("Video não encontrado");
         }
 
         Uri uri = new Uri(videoNoHistorico.Url);
