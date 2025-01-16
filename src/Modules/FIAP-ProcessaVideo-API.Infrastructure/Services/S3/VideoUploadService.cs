@@ -34,7 +34,6 @@ public class VideoUploadService : IVideoUploadService
 
         try
         {
-            // Prepara a requisição de upload
             var uploadRequest = new TransferUtilityUploadRequest
             {
                 InputStream = videoStream,
@@ -46,12 +45,10 @@ public class VideoUploadService : IVideoUploadService
             var transferUtility = new TransferUtility(_amazonS3);
             await transferUtility.UploadAsync(uploadRequest);
 
-            // Retorna a URL pública do arquivo no S3
             return $"https://{_bucketName}.s3.amazonaws.com/{keyName}";
         }
         catch (Exception ex)
         {
-            // Log ou tratamento de erro
             throw new Exception("Erro ao fazer upload do vídeo", ex);
         }
 
