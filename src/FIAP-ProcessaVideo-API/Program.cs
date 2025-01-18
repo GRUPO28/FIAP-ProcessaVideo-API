@@ -32,8 +32,9 @@ builder.Services.AddSwaggerGen(c =>
     c.MapType<IFormFile>(() => new OpenApiSchema { Type = "string", Format = "binary" });
 });
 
-//Mudeles
+//Modules
 builder.Services.AddInfrastructure(builder.Configuration);
+
 
 var app = builder.Build();
 

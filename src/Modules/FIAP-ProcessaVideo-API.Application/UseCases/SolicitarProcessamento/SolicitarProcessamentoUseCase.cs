@@ -9,13 +9,15 @@ using System.Threading.Tasks;
 
 namespace FIAP_ProcessaVideo_API.Application.UseCases.SolicitarProcessamento;
 
-public class SolicitarProcessamentoUseCase(IVideoRepository videoRepository, IVideoUploadService videoUploadService) : IUseCase<SolicitarProcessamentoRequest, bool>
+public class SolicitarProcessamentoUseCase(IVideoRepository videoRepository,
+    IVideoUploadService videoUploadService,
+    ISQSService sqsService) : IUseCase<SolicitarProcessamentoRequest, bool>
 {
     private readonly IVideoRepository _videoRepository = videoRepository;
     private readonly IVideoUploadService _videoUploadService = videoUploadService;
+    private readonly ISQSService _sqsService = sqsService;
 
-
-   public async Task<bool> ExecuteAsync(SolicitarProcessamentoRequest request)
+    public async Task<bool> ExecuteAsync(SolicitarProcessamentoRequest request)
    {
         var fileName = Guid.NewGuid().ToString();
         string videoUrl = "";
@@ -28,6 +30,10 @@ public class SolicitarProcessamentoUseCase(IVideoRepository videoRepository, IVi
 
         Video video = new Video(null, url:videoUrl, status: Domain.Enums.StatusProcessamento.Aguardando, idUsuario: "1");
 
-        return await _videoRepository.CreateAsync(video);
+        var repositoryResponse = await _videoRepository.CreateAsync(video);
+
+        var sqsResponse = await _sqsService.SendRequest(video);
+
+        return sqsResponse;
    }
 }

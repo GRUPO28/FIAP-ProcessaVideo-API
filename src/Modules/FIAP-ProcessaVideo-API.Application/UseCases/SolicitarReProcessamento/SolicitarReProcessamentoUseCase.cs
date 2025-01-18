@@ -9,10 +9,13 @@ using System.Threading.Tasks;
 
 namespace FIAP_ProcessaVideo_API.Application.UseCases.SolicitarReProcessamento;
 
-public class SolicitarReProcessamentoUseCase(IVideoUploadService videoUpload, IVideoRepository videoRepository) : IUseCase<string, bool>
+public class SolicitarReProcessamentoUseCase(IVideoUploadService videoUpload,
+    IVideoRepository videoRepository,
+    ISQSService sqsService) : IUseCase<string, bool>
 {
     private readonly IVideoUploadService _videoUpload = videoUpload;
     private readonly IVideoRepository _videoRepository = videoRepository;
+    private readonly ISQSService _sqsService = sqsService;
 
     public async Task<bool> ExecuteAsync(string request)
     {
@@ -27,11 +30,18 @@ public class SolicitarReProcessamentoUseCase(IVideoUploadService videoUpload, IV
 
         var videoExiste = await _videoUpload.VideoExistsAsync(uri.AbsolutePath.TrimStart('/'));
 
+
         if (!videoExiste)
         {
-            throw new NotImplementedException();
+            throw new ApplicationNotificationException("Vídeo não encontrado.");
         }
-        
-        throw new NotImplementedException();
+
+        videoNoHistorico.AlterarStatus(Domain.Enums.StatusProcessamento.Aguardando);
+
+        var recriado = await _videoRepository.CreateAsync(videoNoHistorico);
+
+        var sqsResponse = await _sqsService.SendRequest(videoNoHistorico);
+
+        return sqsResponse;
     }
 }

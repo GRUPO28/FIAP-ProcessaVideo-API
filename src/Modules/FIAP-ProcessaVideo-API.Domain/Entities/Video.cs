@@ -19,7 +19,7 @@ public class Video : Entity
     public  StatusProcessamento Status { get; private set; }
 
     [JsonPropertyName("id_usuario")]
-    public  string Id_Usuario { get; private set; }
+    public string Id_Usuario { get; private set; }
 
 
     public Video(string id, string url, StatusProcessamento status, string idUsuario) : base(id)
