@@ -36,7 +36,7 @@ namespace FIAP_ProcessaVideo_API.Application.UseCases.ObterProcessamentoUsuario
 
                 listaDeProcessamentoDto.Add(new ObterProcessamentoUsuarioResponse
                 {
-                    Id_Usuario = processado.Id,
+                    Email = processado.Email,
                     Status = processado.Status,
                     Video = uri.AbsolutePath.TrimStart('/')
                 });
