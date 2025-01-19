@@ -14,14 +14,14 @@ namespace FIAP_ProcessaVideo_API.Application.UseCases.ObterProcessamentoUsuario
     {
         private readonly IVideoRepository _videoRepository = videoRepository;
 
-        public async Task<List<ObterProcessamentoUsuarioResponse>> ExecuteAsync(string idUsuario)
+        public async Task<List<ObterProcessamentoUsuarioResponse>> ExecuteAsync(string email)
         {
-            if (string.IsNullOrWhiteSpace(idUsuario))
+            if (string.IsNullOrWhiteSpace(email))
             {
                 throw new ApplicationNotificationException("Usuário não informado.");
             }
 
-            var listaDeProcessamento = await _videoRepository.GetByUser(idUsuario);
+            var listaDeProcessamento = await _videoRepository.GetByUser(email);
 
             if(listaDeProcessamento == null || listaDeProcessamento.Count < 0)
             {

@@ -28,7 +28,7 @@ public class SolicitarProcessamentoUseCase(IVideoRepository videoRepository,
             videoUrl = await _videoUploadService.UploadVideoAsync(videoStream, fileName);
         }
 
-        Video video = new Video(null, url:videoUrl, status: Domain.Enums.StatusProcessamento.Aguardando, idUsuario: "1");
+        Video video = new Video(null, url:videoUrl, status: Domain.Enums.StatusProcessamento.Aguardando, email: "teste1@gmail.com");
 
         var repositoryResponse = await _videoRepository.CreateAsync(video);
 

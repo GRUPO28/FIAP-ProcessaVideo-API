@@ -36,16 +36,16 @@ public class VideoRepository(IAmazonDynamoDB dynamoDB, IOptions<DatabaseSettings
         return response.HttpStatusCode == System.Net.HttpStatusCode.OK;
     }
 
-    public async Task<List<Video>> GetByUser(string idUsuario)
+    public async Task<List<Video>> GetByUser(string email)
     {
         var request = new QueryRequest
         {
             TableName = _databaseSettings.Value.TableName,
-            IndexName = "IdUsuarioIndex",
-            KeyConditionExpression = "Id_Usuario = :idUsuario",
+            IndexName = "EmailIndex",
+            KeyConditionExpression = "Email = :email",
             ExpressionAttributeValues = new Dictionary<string, AttributeValue>
             {
-                {":idUsuario", new AttributeValue { S = idUsuario }}
+                {":email", new AttributeValue { S = email }}
             }
         };
 

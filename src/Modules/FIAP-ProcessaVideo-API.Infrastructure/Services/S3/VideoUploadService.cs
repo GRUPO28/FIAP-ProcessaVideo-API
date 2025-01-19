@@ -17,6 +17,8 @@ public class VideoUploadService : IVideoUploadService
     private readonly IAmazonS3 _amazonS3;
     private readonly string _bucketName;
 
+    private const string folder = "videos/";
+
     public VideoUploadService(IAmazonS3 amazonS3, IOptions<S3Settings> s3Settings)
     {
         _amazonS3 = amazonS3;
@@ -31,7 +33,7 @@ public class VideoUploadService : IVideoUploadService
             throw new InfrastructureNotificationException("Nenhum arquivo de vídeo foi enviado.");
         }
   
-        var keyName = $"{Guid.NewGuid()}_{fileName}";
+        var keyName = $"{folder}{Guid.NewGuid()}_{fileName}";
 
         try
         {
@@ -59,6 +61,7 @@ public class VideoUploadService : IVideoUploadService
     {
         try
         {
+            var keyName = $"{folder}{fileName}";
             var request = new GetObjectMetadataRequest
             {
                 BucketName = _bucketName,

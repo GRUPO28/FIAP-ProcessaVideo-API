@@ -12,21 +12,21 @@ namespace FIAP_ProcessaVideo_API.Domain.Entities;
 
 public class Video : Entity
 {
-    [JsonPropertyName("url")]
+    [JsonPropertyName("Url")]
     public string Url { get; private set; }
 
-    [JsonPropertyName("status")]
+    [JsonPropertyName("Status")]
     public  StatusProcessamento Status { get; private set; }
 
-    [JsonPropertyName("id_usuario")]
-    public string Id_Usuario { get; private set; }
+    [JsonPropertyName("Email")]
+    public string Email { get; private set; }
 
 
-    public Video(string id, string url, StatusProcessamento status, string idUsuario) : base(id)
+    public Video(string id, string url, StatusProcessamento status, string email) : base(id)
     {
         Url = url;
         Status = status;
-        Id_Usuario = idUsuario;
+        Email = email;
     }
 
     protected override void Validate()
@@ -41,7 +41,7 @@ public class Video : Entity
             throw new DomainNotificationException("Status inválido.");
         }
 
-        if (!string.IsNullOrWhiteSpace(Id_Usuario))
+        if (!string.IsNullOrWhiteSpace(Email))
         {
             throw new DomainNotificationException("Id do usuário não informado.");
         }

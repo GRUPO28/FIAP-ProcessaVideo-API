@@ -36,6 +36,11 @@ public static class DependecyInjection
             options.BucketName = configuration.GetSection("AWSS3:BucketName").Value;
         });
 
+        services.Configure<SQSSettings>(options =>
+        {
+            options.QueueUrl = configuration.GetSection("SQS:QueueUrl").Value;
+        });
+
         services.AddSingleton<IAmazonDynamoDB>(_ => new AmazonDynamoDBClient(RegionEndpoint.USEast1));
         services.AddSingleton<IAmazonS3>(_ => new AmazonS3Client(RegionEndpoint.USEast1));
         services.AddSingleton<IAmazonSQS>(_ => new AmazonSQSClient(RegionEndpoint.USEast1));
