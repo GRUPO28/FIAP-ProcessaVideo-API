@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>FIAP_ProcessaVideo_API.Infrastructure</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.405.3" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.411.6" />
+    <PackageReference Include="AWSSDK.SQS" Version="3.7.400.81" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FIAP-ProcessaVideo-API.Application\FIAP-ProcessaVideo-API.Application.csproj" />
+    <ProjectReference Include="..\FIAP-ProcessaVideo-API.Common\FIAP-ProcessaVideo-API.Common.csproj" />
+    <ProjectReference Include="..\FIAP-ProcessaVideo-API.Domain\FIAP-ProcessaVideo-API.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

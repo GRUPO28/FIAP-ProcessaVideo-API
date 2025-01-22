@@ -3,12 +3,59 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{11CD4674-EEEF-44FE-8695-D30C8D543141}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP-ProcessaVideo-API", "src\FIAP-ProcessaVideo-API\FIAP-ProcessaVideo-API.csproj", "{5B97C791-5B0E-4795-83DE-C79BB8024D65}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{AA2B8509-3923-4B78-A79C-C880DD8A036F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP-ProcessaVideo-API.Application", "src\Modules\FIAP-ProcessaVideo-API.Application\FIAP-ProcessaVideo-API.Application.csproj", "{1715358D-55CC-45AE-B3E6-187141A801F2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP-ProcessaVideo-API.Common", "src\Modules\FIAP-ProcessaVideo-API.Common\FIAP-ProcessaVideo-API.Common.csproj", "{7776AD07-C7B3-40EC-AF81-01103502163E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP-ProcessaVideo-API.Domain", "src\Modules\FIAP-ProcessaVideo-API.Domain\FIAP-ProcessaVideo-API.Domain.csproj", "{EED65734-D740-4102-AA49-360F3C671980}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP-ProcessaVideo-API.Infrastructure", "src\Modules\FIAP-ProcessaVideo-API.Infrastructure\FIAP-ProcessaVideo-API.Infrastructure.csproj", "{F66D817B-5793-42D4-90A5-D05395C5F5FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5B97C791-5B0E-4795-83DE-C79BB8024D65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B97C791-5B0E-4795-83DE-C79BB8024D65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B97C791-5B0E-4795-83DE-C79BB8024D65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B97C791-5B0E-4795-83DE-C79BB8024D65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1715358D-55CC-45AE-B3E6-187141A801F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1715358D-55CC-45AE-B3E6-187141A801F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1715358D-55CC-45AE-B3E6-187141A801F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1715358D-55CC-45AE-B3E6-187141A801F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7776AD07-C7B3-40EC-AF81-01103502163E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7776AD07-C7B3-40EC-AF81-01103502163E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7776AD07-C7B3-40EC-AF81-01103502163E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7776AD07-C7B3-40EC-AF81-01103502163E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EED65734-D740-4102-AA49-360F3C671980}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EED65734-D740-4102-AA49-360F3C671980}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EED65734-D740-4102-AA49-360F3C671980}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EED65734-D740-4102-AA49-360F3C671980}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F66D817B-5793-42D4-90A5-D05395C5F5FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F66D817B-5793-42D4-90A5-D05395C5F5FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F66D817B-5793-42D4-90A5-D05395C5F5FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F66D817B-5793-42D4-90A5-D05395C5F5FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5B97C791-5B0E-4795-83DE-C79BB8024D65} = {11CD4674-EEEF-44FE-8695-D30C8D543141}
+		{AA2B8509-3923-4B78-A79C-C880DD8A036F} = {11CD4674-EEEF-44FE-8695-D30C8D543141}
+		{1715358D-55CC-45AE-B3E6-187141A801F2} = {AA2B8509-3923-4B78-A79C-C880DD8A036F}
+		{7776AD07-C7B3-40EC-AF81-01103502163E} = {AA2B8509-3923-4B78-A79C-C880DD8A036F}
+		{EED65734-D740-4102-AA49-360F3C671980} = {AA2B8509-3923-4B78-A79C-C880DD8A036F}
+		{F66D817B-5793-42D4-90A5-D05395C5F5FE} = {AA2B8509-3923-4B78-A79C-C880DD8A036F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {575AB179-7110-4421-A9BC-1D55AA07890F}
 	EndGlobalSection
 EndGlobal

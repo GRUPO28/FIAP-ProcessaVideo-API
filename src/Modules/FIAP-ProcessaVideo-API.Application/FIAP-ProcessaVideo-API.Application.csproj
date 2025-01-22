@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>FIAP_ProcessaVideo_API.Application</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.S3" Version="3.7.411.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FIAP-ProcessaVideo-API.Common\FIAP-ProcessaVideo-API.Common.csproj" />
+    <ProjectReference Include="..\FIAP-ProcessaVideo-API.Domain\FIAP-ProcessaVideo-API.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
