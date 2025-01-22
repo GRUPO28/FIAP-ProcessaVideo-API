@@ -1,6 +1,8 @@
 ﻿using Amazon;
 using Amazon.DynamoDBv2;
+using Amazon.Runtime;
 using Amazon.S3;
+using Amazon.S3.Model;
 using Amazon.SQS;
 using FIAP_ProcessaVideo_API.Application.Abstractions;
 using FIAP_ProcessaVideo_API.Application.UseCases.ObterProcessamentoUsuario;
@@ -26,6 +28,9 @@ public static class DependecyInjection
 
     private static void RegistrarContext(this IServiceCollection services, IConfiguration configuration)
     {
+        var accessKeyId = configuration["AWS:AccessKeyId"];
+        var secretAccessKey = configuration["AWS:SecretAccessKey"];
+
         services.Configure<DatabaseSettings>(options =>
         {
             options.TableName = configuration.GetSection("Database:TableName").Value;
@@ -41,9 +46,29 @@ public static class DependecyInjection
             options.QueueUrl = configuration.GetSection("SQS:QueueUrl").Value;
         });
 
-        services.AddSingleton<IAmazonDynamoDB>(_ => new AmazonDynamoDBClient(RegionEndpoint.USEast1));
-        services.AddSingleton<IAmazonS3>(_ => new AmazonS3Client(RegionEndpoint.USEast1));
-        services.AddSingleton<IAmazonSQS>(_ => new AmazonSQSClient(RegionEndpoint.USEast1));
+        services.AddSingleton<IAmazonDynamoDB>(_ => new AmazonDynamoDBClient(
+            new BasicAWSCredentials(accessKeyId, secretAccessKey),
+            new AmazonDynamoDBConfig
+            {
+                RegionEndpoint = RegionEndpoint.GetBySystemName(configuration["AWS:Region"])
+            }
+        ));
+
+        services.AddSingleton<IAmazonS3>(_ => new AmazonS3Client(
+            new BasicAWSCredentials(accessKeyId, secretAccessKey),
+            new AmazonS3Config
+            {
+                RegionEndpoint = RegionEndpoint.GetBySystemName(configuration["AWS:Region"])
+            }
+         ));
+
+        services.AddSingleton<IAmazonSQS>(_ => new AmazonSQSClient(
+            new BasicAWSCredentials(accessKeyId, secretAccessKey),
+            new AmazonSQSConfig
+            {
+                RegionEndpoint = RegionEndpoint.GetBySystemName(configuration["AWS:Region"])
+            }
+        ));
     }
 
     private static void RegistrarServices(this IServiceCollection services, IConfiguration configuration)
