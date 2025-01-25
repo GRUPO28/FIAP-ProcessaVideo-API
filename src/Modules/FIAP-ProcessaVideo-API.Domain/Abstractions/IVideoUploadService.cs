@@ -8,6 +8,6 @@ namespace FIAP_ProcessaVideo_API.Application.Abstractions;
 
 public interface IVideoUploadService
 {
-    Task<string> UploadVideoAsync(Stream videoStream, string fileName);
+    Task<string> UploadVideoAsync(Stream videoStream, string fileName, string contentType);
     Task<bool> VideoExistsAsync(string fileName);
 }
