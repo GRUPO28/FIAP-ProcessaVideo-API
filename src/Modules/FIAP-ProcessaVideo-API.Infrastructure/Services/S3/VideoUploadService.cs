@@ -103,9 +103,6 @@ public class VideoUploadService : IVideoUploadService
         CognitoAWSCredentials credentials = new CognitoAWSCredentials(_awsSettings.Cognito.IdentityPoolId, RegionEndpoint.USEast1);
         credentials.AddLogin(providerName, _httpUserAccessor.AuthorizationToken.Replace("Bearer ", ""));
 
-        var t1 = credentials.GetCredentials().AccessKey;
-        var t2 = credentials.GetCredentials().SecretKey;
-
         return credentials;
     }
 }
