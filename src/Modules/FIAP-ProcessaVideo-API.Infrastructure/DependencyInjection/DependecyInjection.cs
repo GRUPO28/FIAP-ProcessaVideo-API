@@ -2,18 +2,20 @@
 using Amazon.DynamoDBv2;
 using Amazon.Runtime;
 using Amazon.S3;
-using Amazon.S3.Model;
 using Amazon.SQS;
 using FIAP_ProcessaVideo_API.Application.Abstractions;
 using FIAP_ProcessaVideo_API.Application.UseCases.ObterProcessamentoUsuario;
 using FIAP_ProcessaVideo_API.Application.UseCases.SolicitarProcessamento;
 using FIAP_ProcessaVideo_API.Application.UseCases.SolicitarReProcessamento;
 using FIAP_ProcessaVideo_API.Domain.Abstractions;
+using FIAP_ProcessaVideo_API.Infrastructure.Configurations;
 using FIAP_ProcessaVideo_API.Infrastructure.Repositories.DynamoDb;
 using FIAP_ProcessaVideo_API.Infrastructure.Services.S3;
 using FIAP_ProcessaVideo_API.Infrastructure.Services.SQS;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FIAP_ProcessaVideo_API.Infrastructure.DependencyInjection;
 
@@ -24,6 +26,10 @@ public static class DependecyInjection
     {
         RegistrarContext(services, configuration);
         RegistrarServices(services, configuration);
+        RegistrarAutenticacao(services, configuration);
+
+        services.AddOptions();
+        services.Configure<AwsSettings>(configuration.GetSection("AWS"));
     }
 
     private static void RegistrarContext(this IServiceCollection services, IConfiguration configuration)
@@ -80,5 +86,32 @@ public static class DependecyInjection
         services.AddScoped<IUseCase<SolicitarProcessamentoRequest, bool>, SolicitarProcessamentoUseCase>();
         services.AddScoped<IUseCase<string, bool>, SolicitarReProcessamentoUseCase>();
         services.AddScoped<IUseCase<string, List<ObterProcessamentoUsuarioResponse>>, ObterProcessamentoUsuarioUseCase>();
+    }
+
+    private static void RegistrarAutenticacao(this IServiceCollection services, IConfiguration configuration)
+    {
+        string region = configuration["AWS:Region"]!;
+        string cognitoAppClientId = configuration["AWS:Cognito:AppClientId"]!;
+        string cognitoUserPoolId = configuration["AWS:Cognito:UserPoolId"]!;
+
+        string authority = $"https://cognito-idp.{region}.amazonaws.com/{cognitoUserPoolId}";
+        string validAudience = cognitoAppClientId;
+
+        services.AddAuthorization();
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+                {
+                    options.Authority = authority;
+                    options.MapInboundClaims = false;
+                    options.RequireHttpsMetadata = false;
+                    options.IncludeErrorDetails = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateLifetime = true,
+                        //ValidAudience = validAudience,
+                        ValidateAudience = false,
+                    };
+                });
     }
 }

@@ -1,15 +1,14 @@
 ﻿using FIAP_ProcessaVideo_API.Application.Abstractions;
+using FIAP_ProcessaVideo_API.Common.Abstractions;
+using FIAP_ProcessaVideo_API.Common.Exceptions;
 using FIAP_ProcessaVideo_API.Domain.Abstractions;
 using FIAP_ProcessaVideo_API.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FIAP_ProcessaVideo_API.Application.UseCases.SolicitarProcessamento;
 
-public class SolicitarProcessamentoUseCase(IVideoRepository videoRepository,
+public class SolicitarProcessamentoUseCase(
+    IHttpUserAccessor httpUserAccessor,
+    IVideoRepository videoRepository,
     IVideoUploadService videoUploadService,
     ISQSService sqsService) : IUseCase<SolicitarProcessamentoRequest, bool>
 {
@@ -17,18 +16,26 @@ public class SolicitarProcessamentoUseCase(IVideoRepository videoRepository,
     private readonly IVideoUploadService _videoUploadService = videoUploadService;
     private readonly ISQSService _sqsService = sqsService;
 
+    private static string[] validEntensions = ["mp4", "mkv"];
+
     public async Task<bool> ExecuteAsync(SolicitarProcessamentoRequest request)
    {
-        var fileName = Guid.NewGuid().ToString();
+        string fileExtension = Path.GetExtension(request.VideoFile.FileName);
+         
+        if (string.IsNullOrEmpty(fileExtension) || !validEntensions.Contains(fileExtension))
+        {
+            throw new ApplicationNotificationException($"O arquivo enviado não possui uma extensão válida. Formatos aceitos: {string.Join(",", validEntensions)}");
+        }
+
+        var fileName = $"{Guid.NewGuid()}{fileExtension}";
         string videoUrl = "";
 
         using (var videoStream = request.VideoFile.OpenReadStream())
         {
-            
-            videoUrl = await _videoUploadService.UploadVideoAsync(videoStream, fileName);
+            videoUrl = await _videoUploadService.UploadVideoAsync(videoStream, fileName, request.VideoFile.ContentType);
         }
 
-        Video video = new Video(null, url:videoUrl, status: Domain.Enums.StatusProcessamento.Aguardando, email: "teste1@gmail.com");
+        Video video = new Video(null, url:videoUrl, status: Domain.Enums.StatusProcessamento.Aguardando, email: httpUserAccessor.Email);
 
         var repositoryResponse = await _videoRepository.CreateAsync(video);
 

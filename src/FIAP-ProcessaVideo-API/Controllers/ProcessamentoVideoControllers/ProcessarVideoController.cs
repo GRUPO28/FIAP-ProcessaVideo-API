@@ -2,11 +2,12 @@
 using FIAP_ProcessaVideo_API.Application.UseCases.ObterProcessamentoUsuario;
 using FIAP_ProcessaVideo_API.Application.UseCases.SolicitarProcessamento;
 using FIAP_ProcessaVideo_API.Common.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 
 namespace FIAP_ProcessaVideo_API.Controllers.ProcessamentoVideoControllers;
 
+[Authorize]
 [Route("api/processar")]
 public class ProcessarVideoController(
     IUseCase<SolicitarProcessamentoRequest, bool> processamentoRequest, 

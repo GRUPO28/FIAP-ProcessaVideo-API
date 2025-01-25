@@ -1,31 +1,34 @@
 ﻿using Amazon.S3.Transfer;
 using Amazon.S3;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using FIAP_ProcessaVideo_API.Application.Abstractions;
 using Amazon.S3.Model;
 using FIAP_ProcessaVideo_API.Common.Exceptions;
+using Amazon;
+using Amazon.CognitoIdentity;
+using FIAP_ProcessaVideo_API.Infrastructure.Configurations;
+using FIAP_ProcessaVideo_API.Common.Abstractions;
 
 namespace FIAP_ProcessaVideo_API.Infrastructure.Services.S3;
 
 public class VideoUploadService : IVideoUploadService
 {
+    private readonly IHttpUserAccessor _httpUserAccessor;
     private readonly IAmazonS3 _amazonS3;
+    private readonly AwsSettings _awsSettings;
     private readonly string _bucketName;
 
     private const string folder = "videos/";
 
-    public VideoUploadService(IAmazonS3 amazonS3, IOptions<S3Settings> s3Settings)
+    public VideoUploadService(IHttpUserAccessor httpUserAccessor, IAmazonS3 amazonS3, IOptions<S3Settings> s3Settings, IOptions<AwsSettings> awsSettings)
     {
+        _httpUserAccessor = httpUserAccessor;
         _amazonS3 = amazonS3;
         _bucketName = s3Settings.Value.BucketName;
+        _awsSettings = awsSettings.Value;
     }
 
-    public async Task<string> UploadVideoAsync(Stream videoStream, string fileName)
+    public async Task<string> UploadVideoAsync(Stream videoStream, string fileName, string contentType)
     {
 
         if (videoStream == null || videoStream.Length == 0)
@@ -33,7 +36,7 @@ public class VideoUploadService : IVideoUploadService
             throw new InfrastructureNotificationException("Nenhum arquivo de vídeo foi enviado.");
         }
   
-        var keyName = $"{folder}{Guid.NewGuid()}_{fileName}";
+        var keyName = $"{folder}{fileName}";
 
         try
         {
@@ -42,11 +45,19 @@ public class VideoUploadService : IVideoUploadService
                 InputStream = videoStream,
                 BucketName = _bucketName,
                 Key = keyName,
-                ContentType = "video/mp4"
+                ContentType = contentType,
             };
 
-            var transferUtility = new TransferUtility(_amazonS3);
-            await transferUtility.UploadAsync(uploadRequest);
+            uploadRequest.Metadata.Add("uploadedBy", _httpUserAccessor.Email);
+
+            // Acessa o serviço usando credenciais específicas do usuário
+            var credentials = GetCognitoCredentials();
+
+            using (var client = new AmazonS3Client(credentials))
+            {
+                var transferUtility = new TransferUtility(client);
+                await transferUtility.UploadAsync(uploadRequest);
+            }
 
             return $"https://{_bucketName}.s3.amazonaws.com/{keyName}";
         }
@@ -82,5 +93,19 @@ public class VideoUploadService : IVideoUploadService
 
             throw new InfrastructureNotificationException("Erro ao verificar se o vídeo existe no S3");
         }
+    }
+
+    private CognitoAWSCredentials GetCognitoCredentials()
+    {
+        string providerName = $"cognito-idp.{_awsSettings.Region}.amazonaws.com/{_awsSettings.Cognito.UserPoolId}";
+
+        // Exchange access token for AWS credentials
+        CognitoAWSCredentials credentials = new CognitoAWSCredentials(_awsSettings.Cognito.IdentityPoolId, RegionEndpoint.USEast1);
+        credentials.AddLogin(providerName, _httpUserAccessor.AuthorizationToken.Replace("Bearer ", ""));
+
+        var t1 = credentials.GetCredentials().AccessKey;
+        var t2 = credentials.GetCredentials().SecretKey;
+
+        return credentials;
     }
 }
