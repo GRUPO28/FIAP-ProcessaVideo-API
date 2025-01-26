@@ -21,6 +21,9 @@ public class Video : Entity
     [JsonPropertyName("Email")]
     public string Email { get; private set; }
 
+    [JsonPropertyName("UrlZip")] 
+    public string UrlZip { get; private set; } = string.Empty;
+
 
     public Video(string id, string url, StatusProcessamento status, string email) : base(id)
     {
@@ -55,6 +58,16 @@ public class Video : Entity
         }
 
         Status = status;
+    }
+
+    public void AlterarUrlZip(string urlZip)
+    {
+        if (string.IsNullOrWhiteSpace(urlZip))
+        {
+            throw new DomainNotificationException("Url do zip não informada.");
+        }
+        
+        UrlZip = urlZip;
     }
 
 }

@@ -88,7 +88,7 @@ public class ProcessarVideoController(
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"[{nameof(ProcessarVideoController)}[{ReProcessar}] - Unexpected Error - [{ex.Message}]]");
+            Console.WriteLine($"[{nameof(ProcessarVideoController)}[{ObterFilaUsuario}] - Unexpected Error - [{ex.Message}]]");
             return BadRequest(new { message = "Ocorreu um erro inesperado." });
         }
     }
