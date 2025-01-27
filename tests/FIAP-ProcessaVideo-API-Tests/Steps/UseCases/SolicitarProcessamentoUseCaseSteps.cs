@@ -1,96 +1,110 @@
 using FIAP_ProcessaVideo_API.Application.Abstractions;
-using Moq;
-using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using FIAP_ProcessaVideo_API.Application.UseCases.SolicitarProcessamento;
-using FIAP_ProcessaVideo_API.Common.Abstractions;
 using FIAP_ProcessaVideo_API.Common.Exceptions;
 using FIAP_ProcessaVideo_API.Domain.Abstractions;
 using FIAP_ProcessaVideo_API.Domain.Entities;
+using FluentAssertions;
+using Moq;
+using System.IO;
+using FIAP_ProcessaVideo_API.Common.Abstractions;
+using Microsoft.AspNetCore.Http;
+using TechTalk.SpecFlow;
 
-public class SolicitarProcessamentoUseCaseTests
+[Binding]
+public class SolicitarProcessamentoUseCaseSteps
 {
-    [Fact]
-    public async Task ExecuteAsync_ShouldReturnTrue_WhenProcessingIsSuccessful()
-    {
-        // Arrange
-        var mockVideoRepository = new Mock<IVideoRepository>();
-        var mockVideoUploadService = new Mock<IVideoUploadService>();
-        var mockSqsService = new Mock<ISQSService>();
-        var mockHttpUserAccessor = new Mock<IHttpUserAccessor>();
+    private readonly Mock<IVideoRepository> _mockVideoRepository = new();
+    private readonly Mock<IVideoUploadService> _mockVideoUploadService = new();
+    private readonly Mock<ISQSService> _mockSqsService = new();
+    private readonly Mock<IHttpUserAccessor> _mockHttpUserAccessor = new();
+    private IFormFile _videoFile;
+    private SolicitarProcessamentoUseCase _useCase;
+    private Exception _exception;
+    private bool _result;
 
-        // Criação de um mock de IFormFile (representando o arquivo de vídeo)
+    public SolicitarProcessamentoUseCaseSteps()
+    {
+        _useCase = new SolicitarProcessamentoUseCase(
+            _mockHttpUserAccessor.Object,
+            _mockVideoRepository.Object,
+            _mockVideoUploadService.Object,
+            _mockSqsService.Object
+        );
+    }
+
+    [Given(@"I have a valid video file named ""(.*)""")]
+    public void GivenIHaveAValidVideoFileNamed(string fileName)
+    {
+        var fileContent = new byte[] { 1, 2, 3 };
         var mockFormFile = new Mock<IFormFile>();
-        var fileName = "video.mp4"; // Certifique-se de que o nome do arquivo tenha a extensão correta
-        var fileContent = new byte[] { 1, 2, 3 }; // Conteúdo de exemplo do arquivo
 
         mockFormFile.Setup(f => f.FileName).Returns(fileName);
         mockFormFile.Setup(f => f.Length).Returns(fileContent.Length);
         mockFormFile.Setup(f => f.OpenReadStream()).Returns(new MemoryStream(fileContent));
         mockFormFile.Setup(f => f.ContentType).Returns("video/mp4");
 
-        mockVideoUploadService.Setup(x => x.UploadVideoAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync("http://s3.bucket/video.mp4"); // Simula o upload do vídeo
+        _videoFile = mockFormFile.Object;
 
-        mockVideoRepository.Setup(x => x.CreateAsync(It.IsAny<Video>()))
-            .ReturnsAsync(true); // Simula sucesso ao criar o vídeo no repositório
+        _mockVideoUploadService.Setup(x => x.UploadVideoAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync("http://s3.bucket/video.mp4");
 
-        mockSqsService.Setup(x => x.SendRequest(It.IsAny<Video>()))
-            .ReturnsAsync(true); // Simula sucesso ao enviar o vídeo para a fila SQS
-
-        var useCase = new SolicitarProcessamentoUseCase(
-            mockHttpUserAccessor.Object,
-            mockVideoRepository.Object,
-            mockVideoUploadService.Object,
-            mockSqsService.Object
-        );
-
-        // Act
-        var result = await useCase.ExecuteAsync(new SolicitarProcessamentoRequest
-        {
-            VideoFile = mockFormFile.Object // Passa o mock do IFormFile
-        });
-
-        // Assert
-        result.Should().BeTrue();
+        _mockVideoRepository.Setup(x => x.CreateAsync(It.IsAny<Video>())).ReturnsAsync(true);
+        _mockSqsService.Setup(x => x.SendRequest(It.IsAny<Video>())).ReturnsAsync(true);
     }
-    
-    [Fact]
-    public async Task ExecuteAsync_ShouldThrowException_WhenFileExtensionIsInvalid()
-    {
-        // Arrange
-        var mockVideoRepository = new Mock<IVideoRepository>();
-        var mockVideoUploadService = new Mock<IVideoUploadService>();
-        var mockSqsService = new Mock<ISQSService>();
-        var mockHttpUserAccessor = new Mock<IHttpUserAccessor>();
 
-        // Criação de um mock de IFormFile (representando o arquivo de vídeo)
+    [Given(@"I have an invalid video file named ""(.*)""")]
+    public void GivenIHaveAnInvalidVideoFileNamed(string fileName)
+    {
+        var fileContent = new byte[] { 1, 2, 3 };
         var mockFormFile = new Mock<IFormFile>();
-        var fileName = "video.txt"; // Extensão inválida
-        var fileContent = new byte[] { 1, 2, 3 }; // Conteúdo de exemplo do arquivo
 
         mockFormFile.Setup(f => f.FileName).Returns(fileName);
         mockFormFile.Setup(f => f.Length).Returns(fileContent.Length);
         mockFormFile.Setup(f => f.OpenReadStream()).Returns(new MemoryStream(fileContent));
         mockFormFile.Setup(f => f.ContentType).Returns("text/plain");
 
-        var useCase = new SolicitarProcessamentoUseCase(
-            mockHttpUserAccessor.Object,
-            mockVideoRepository.Object,
-            mockVideoUploadService.Object,
-            mockSqsService.Object
-        );
-
-        // Act & Assert
-        var exception = await Assert.ThrowsAsync<ApplicationNotificationException>(
-            () => useCase.ExecuteAsync(new SolicitarProcessamentoRequest
-            {
-                VideoFile = mockFormFile.Object // Passa o mock do IFormFile
-            })
-        );
-
-        exception.Message.Should().Be("O arquivo enviado não possui uma extensão válida. Formatos aceitos: .mp4,.mkv");
+        _videoFile = mockFormFile.Object;
     }
 
+    [Given(@"I do not provide a video file")]
+    public void GivenIDoNotProvideAVideoFile()
+    {
+        _videoFile = null;
+    }
 
+    [Given(@"the upload service is unavailable")]
+    public void GivenTheUploadServiceIsUnavailable()
+    {
+        _mockVideoUploadService.Setup(x => x.UploadVideoAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()))
+            .ThrowsAsync(new InfrastructureNotificationException("Error uploading the video."));
+    }
+
+    [When(@"I request video processing")]
+    public async Task WhenIRequestVideoProcessing()
+    {
+        try
+        {
+            _result = await _useCase.ExecuteAsync(new SolicitarProcessamentoRequest
+            {
+                VideoFile = _videoFile
+            });
+        }
+        catch (Exception ex)
+        {
+            _exception = ex;
+        }
+    }
+
+    [Then(@"the process should succeed")]
+    public void ThenTheProcessShouldSucceed()
+    {
+        _result.Should().BeTrue();
+    }
+
+    [Then(@"an error should occur with the message ""(.*)""")]
+    public void ThenAnErrorShouldOccurWithTheMessage(string expectedMessage)
+    {
+        _exception.Should().NotBeNull();
+        _exception.Message.Should().Be(expectedMessage);
+    }
 }
