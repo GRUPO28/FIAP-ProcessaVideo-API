@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP-ProcessaVideo-API.Doma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP-ProcessaVideo-API.Infrastructure", "src\Modules\FIAP-ProcessaVideo-API.Infrastructure\FIAP-ProcessaVideo-API.Infrastructure.csproj", "{F66D817B-5793-42D4-90A5-D05395C5F5FE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "teste", "teste", "{8A62F48D-CA6E-4E05-9294-1556E2BAF310}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIAP-ProcessaVideo-API-Tests", "tests\FIAP-ProcessaVideo-API-Tests\FIAP-ProcessaVideo-API-Tests.csproj", "{48C37667-D6F7-477F-895C-54176EE50089}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +47,10 @@ Global
 		{F66D817B-5793-42D4-90A5-D05395C5F5FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F66D817B-5793-42D4-90A5-D05395C5F5FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F66D817B-5793-42D4-90A5-D05395C5F5FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48C37667-D6F7-477F-895C-54176EE50089}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48C37667-D6F7-477F-895C-54176EE50089}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48C37667-D6F7-477F-895C-54176EE50089}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48C37667-D6F7-477F-895C-54176EE50089}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +62,7 @@ Global
 		{7776AD07-C7B3-40EC-AF81-01103502163E} = {AA2B8509-3923-4B78-A79C-C880DD8A036F}
 		{EED65734-D740-4102-AA49-360F3C671980} = {AA2B8509-3923-4B78-A79C-C880DD8A036F}
 		{F66D817B-5793-42D4-90A5-D05395C5F5FE} = {AA2B8509-3923-4B78-A79C-C880DD8A036F}
+		{48C37667-D6F7-477F-895C-54176EE50089} = {8A62F48D-CA6E-4E05-9294-1556E2BAF310}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {575AB179-7110-4421-A9BC-1D55AA07890F}
