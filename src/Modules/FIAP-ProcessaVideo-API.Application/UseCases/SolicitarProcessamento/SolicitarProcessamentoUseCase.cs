@@ -20,6 +20,11 @@ public class SolicitarProcessamentoUseCase(
 
     public async Task<bool> ExecuteAsync(SolicitarProcessamentoRequest request)
    {
+        if (request.VideoFile == null)
+        { 
+            throw new ApplicationNotificationException("O arquivo não foi informado.");
+        }
+       
         string fileExtension = Path.GetExtension(request.VideoFile.FileName);
         var teste = !validEntensions.Contains(fileExtension);
         if (string.IsNullOrEmpty(fileExtension) || !validEntensions.Contains(fileExtension))
