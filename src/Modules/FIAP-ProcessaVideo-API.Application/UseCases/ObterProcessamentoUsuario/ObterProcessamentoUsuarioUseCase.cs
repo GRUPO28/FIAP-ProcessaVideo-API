@@ -1,4 +1,4 @@
-using Amazon.Runtime.Internal.Endpoints.StandardLibrary;
+﻿using Amazon.Runtime.Internal.Endpoints.StandardLibrary;
 using FIAP_ProcessaVideo_API.Application.Abstractions;
 using FIAP_ProcessaVideo_API.Common.Exceptions;
 using FIAP_ProcessaVideo_API.Domain.Abstractions;

@@ -1,14 +1,15 @@
 using FIAP_ProcessaVideo_API.Application.Abstractions;
 using FIAP_ProcessaVideo_API.Application.UseCases.SolicitarProcessamento;
+using FIAP_ProcessaVideo_API.Common.Abstractions;
 using FIAP_ProcessaVideo_API.Common.Exceptions;
 using FIAP_ProcessaVideo_API.Domain.Abstractions;
 using FIAP_ProcessaVideo_API.Domain.Entities;
 using FluentAssertions;
-using Moq;
-using System.IO;
-using FIAP_ProcessaVideo_API.Common.Abstractions;
 using Microsoft.AspNetCore.Http;
+using Moq;
 using TechTalk.SpecFlow;
+
+namespace FIAP_ProcessaVideo_API_Tests.Steps.UseCases;
 
 [Binding]
 public class SolicitarProcessamentoUseCaseSteps
