@@ -1,4 +1,4 @@
-﻿using Amazon.Runtime.Internal.Endpoints.StandardLibrary;
+using Amazon.Runtime.Internal.Endpoints.StandardLibrary;
 using FIAP_ProcessaVideo_API.Application.Abstractions;
 using FIAP_ProcessaVideo_API.Common.Exceptions;
 using FIAP_ProcessaVideo_API.Domain.Abstractions;
@@ -23,7 +23,7 @@ namespace FIAP_ProcessaVideo_API.Application.UseCases.ObterProcessamentoUsuario
 
             var listaDeProcessamento = await _videoRepository.GetByUser(email);
 
-            if(listaDeProcessamento == null || listaDeProcessamento.Count < 0)
+            if(listaDeProcessamento == null || listaDeProcessamento.Count == 0)
             {
                 throw new ApplicationNotificationException("Nenhum dado encontrado para o usuário informado.");
             }
