@@ -34,6 +34,18 @@ public class ObterProcessamentoUsuarioSteps
                 new Video("2", "http://example.com/video2.mp4", StatusProcessamento.Pronto, _email)
             });
     }
+    
+    [Given("User e-mail was not sent")]
+    public void GivenUserEmailWasNotSent()
+    {
+        
+        _mockVideoRepository.Setup(x => x.GetByUser(_email))
+            .ReturnsAsync(new List<Video>
+            {
+                new Video("1", "http://example.com/video1.mp4", StatusProcessamento.Processando, "Teste@gmail.com"),
+                new Video("2", "http://example.com/video2.mp4", StatusProcessamento.Pronto, "Teste@gmail.com")
+            });
+    }
 
     [When(@"I request the queue")]
     public async Task WhenIRequestTheQueue()

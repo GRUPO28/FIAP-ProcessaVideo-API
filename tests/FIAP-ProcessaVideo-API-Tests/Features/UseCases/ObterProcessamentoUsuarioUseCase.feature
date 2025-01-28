@@ -12,4 +12,9 @@ Scenario: No data found in queue request
     Given A valid user e-mail whith no data in DB "Teste1@gmail.com"
     When I request the queue
     Then I should see an exception "Nenhum dado encontrado para o usuário informado."
+
+Scenario: User not sent
+    Given User e-mail was not sent
+    When I request the queue
+    Then I should see an exception "Usuário não informado."
  
