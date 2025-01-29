@@ -186,7 +186,7 @@ namespace FIAP_ProcessaVideo_API_Tests.Features.UseCases
 #line hidden
 #line 22
         await testRunner.ThenAsync("an exception of type ApplicationNotificationException should be thrown with the m" +
-                        "essage \"Vídeo não encontrado.\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+                        "essage \"Vídeo não encontrado na nuvem.\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

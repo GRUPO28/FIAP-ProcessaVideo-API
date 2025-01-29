@@ -14,7 +14,7 @@ namespace FIAP_ProcessaVideo_API_Tests.Steps.UseCases
     [Binding]
     public class SolicitarReProcessamentoSteps
     {
-        private readonly SolicitarReProcessamentoUseCase _useCase;
+        private readonly IUseCase<string, bool> _useCase;
         private readonly Mock<IVideoRepository> _videoRepositoryMock;
         private readonly Mock<IVideoUploadService> _videoUploadMock;
         private readonly Mock<ISQSService> _sqsServiceMock;

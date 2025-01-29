@@ -19,7 +19,7 @@ public class SolicitarProcessamentoUseCaseSteps
     private readonly Mock<ISQSService> _mockSqsService = new();
     private readonly Mock<IHttpUserAccessor> _mockHttpUserAccessor = new();
     private IFormFile _videoFile;
-    private SolicitarProcessamentoUseCase _useCase;
+    private IUseCase<SolicitarProcessamentoRequest, bool> _useCase;
     private Exception _exception;
     private bool _result;
 

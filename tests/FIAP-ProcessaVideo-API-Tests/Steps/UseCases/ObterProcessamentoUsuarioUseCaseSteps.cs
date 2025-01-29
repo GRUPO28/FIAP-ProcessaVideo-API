@@ -1,3 +1,4 @@
+using FIAP_ProcessaVideo_API.Application.Abstractions;
 using FIAP_ProcessaVideo_API.Application.UseCases.ObterProcessamentoUsuario;
 using FIAP_ProcessaVideo_API.Domain.Abstractions;
 using FIAP_ProcessaVideo_API.Domain.Entities;
@@ -12,7 +13,7 @@ namespace FIAP_ProcessaVideo_API_Tests.Steps.UseCases;
 public class ObterProcessamentoUsuarioSteps
 {
     private readonly Mock<IVideoRepository> _mockVideoRepository = new();
-    private readonly ObterProcessamentoUsuarioUseCase _useCase;
+    private readonly IUseCase<string, List<ObterProcessamentoUsuarioResponse>>  _useCase;
     private string _email;
     private List<ObterProcessamentoUsuarioResponse> _response;
     private Exception _exception;

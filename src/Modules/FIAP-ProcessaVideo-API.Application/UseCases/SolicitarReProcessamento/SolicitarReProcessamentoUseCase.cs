@@ -32,7 +32,7 @@ public class SolicitarReProcessamentoUseCase(IVideoUploadService videoUpload,
         var videoExiste = await _videoUpload.VideoExistsAsync(uri.AbsolutePath.TrimStart('/'));
         if (!videoExiste)
         {
-            throw new ApplicationNotificationException("Vídeo não encontrado.");
+            throw new ApplicationNotificationException("Vídeo não encontrado na nuvem.");
         }
 
         videoNoHistorico.AlterarStatus(Domain.Enums.StatusProcessamento.Aguardando);

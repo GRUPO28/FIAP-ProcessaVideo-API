@@ -19,7 +19,7 @@ So that I can reprocess a video that needs to be re-analyzed
         Given a video with ID "123" exists in the repository
         And the video with ID "123" does not exist in S3
         When  I request reprocessing for the video that does not exist in S3 with ID "123"
-        Then an exception of type ApplicationNotificationException should be thrown with the message "Vídeo não encontrado."
+        Then an exception of type ApplicationNotificationException should be thrown with the message "Vídeo não encontrado na nuvem."
 
     Scenario: Request reprocessing without providing a video ID
         Given the video ID is not provided
