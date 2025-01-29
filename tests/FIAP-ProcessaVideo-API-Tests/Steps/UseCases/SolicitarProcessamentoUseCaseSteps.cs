@@ -46,6 +46,8 @@ public class SolicitarProcessamentoUseCaseSteps
 
         _videoFile = mockFormFile.Object;
 
+        _mockHttpUserAccessor.Setup(accessor => accessor.Email).Returns("user@example.com");
+        
         _mockVideoUploadService.Setup(x => x.UploadVideoAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync("http://s3.bucket/video.mp4");
 
@@ -99,7 +101,7 @@ public class SolicitarProcessamentoUseCaseSteps
     [Then(@"the process should succeed")]
     public void ThenTheProcessShouldSucceed()
     {
-        _result.Should().BeTrue();
+        Assert.True(_result);
     }
 
     [Then(@"an error should occur with the message ""(.*)""")]

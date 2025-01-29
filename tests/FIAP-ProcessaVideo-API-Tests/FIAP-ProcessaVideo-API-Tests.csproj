@@ -31,9 +31,4 @@
       <ProjectReference Include="..\..\src\Modules\FIAP-ProcessaVideo-API.Infrastructure\FIAP-ProcessaVideo-API.Infrastructure.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Features\Domain\" />
-      <Folder Include="Steps\Domain\" />
-    </ItemGroup>
-
 </Project>

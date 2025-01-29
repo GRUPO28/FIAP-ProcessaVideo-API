@@ -30,11 +30,13 @@ public class Video : Entity
         Url = url;
         Status = status;
         Email = email;
+        
+        Validate();
     }
 
     protected override void Validate()
     {
-        if(!string.IsNullOrWhiteSpace(Url))
+        if(string.IsNullOrWhiteSpace(Url))
         {
             throw new DomainNotificationException("Url não foi informada.");
         }
@@ -44,7 +46,7 @@ public class Video : Entity
             throw new DomainNotificationException("Status inválido.");
         }
 
-        if (!string.IsNullOrWhiteSpace(Email))
+        if (string.IsNullOrWhiteSpace(Email))
         {
             throw new DomainNotificationException("Id do usuário não informado.");
         }

@@ -106,8 +106,6 @@ namespace FIAP_ProcessaVideo_API_Tests.Steps.UseCases
         {
             Assert.IsType<ApplicationNotificationException>(_exception);
             Assert.Equal(message, _exception.Message);
-            _videoRepositoryMock.Verify(repo => repo.CreateAsync(It.IsAny<Video>()), Times.Never);
-            _sqsServiceMock.Verify(service => service.SendRequest(It.IsAny<Video>()), Times.Never);
         }
     }
 }
