@@ -60,12 +60,11 @@ resource "aws_security_group" "security_group" {
   vpc_id = aws_vpc.main.id
 
   ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"  # -1 significa "todos os protocolos"
+    from_port   = 5158
+    to_port     = 5158
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-    description = "any"
-    self        = false
+    description = "Allow traffic to application port 5158"
   }
 
   egress {
@@ -73,8 +72,7 @@ resource "aws_security_group" "security_group" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
-    description = "any"
-    self        = false
+    description = "Allow all outbound traffic"
   }
 
   tags = {
