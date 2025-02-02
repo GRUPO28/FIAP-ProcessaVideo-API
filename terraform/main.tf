@@ -2,33 +2,40 @@ resource "aws_ecs_cluster" "ecs_cluster" {
  name = "my-ecs-cluster"
 }
 
+resource "aws_iam_instance_profile" "ecs_instance_profile" {
+  name = "ecsInstanceProfile"
+  role = aws_iam_role.ecs_instance_role.name
+}
+
+
 resource "aws_launch_template" "ecs_lt" {
- name_prefix   = "ecs-template"
- image_id      = "ami-062c116e449466e7f"
- instance_type = "t3.micro"
+  name_prefix   = "ecs-template"
+  image_id      = "ami-05163bdbbc24049e3"
+  instance_type = "t3.micro"
 
- key_name               = "ec2ecsglog"
- vpc_security_group_ids = [aws_security_group.security_group.id]
- iam_instance_profile {
-   name = "ecsInstanceRole"
- }
+  key_name               = "ec2ecsglog"
+  vpc_security_group_ids = [aws_security_group.security_group.id]
 
- block_device_mappings {
-   device_name = "/dev/xvda"
-   ebs {
-     volume_size = 30
-     volume_type = "gp2"
-   }
- }
+  iam_instance_profile {
+    name = aws_iam_instance_profile.ecs_instance_profile.name
+  }
 
- tag_specifications {
-   resource_type = "instance"
-   tags = {
-     Name = "ecs-instance"
-   }
- }
+  block_device_mappings {
+    device_name = "/dev/xvda"
+    ebs {
+      volume_size = 30
+      volume_type = "gp2"
+    }
+  }
 
- user_data = filebase64("${path.module}/ecs.sh")
+  tag_specifications {
+    resource_type = "instance"
+    tags = {
+      Name = "ecs-instance"
+    }
+  }
+
+  user_data = filebase64("${path.module}/ecs.sh")
 }
 
 resource "aws_autoscaling_group" "ecs_asg" {
@@ -63,7 +70,7 @@ resource "aws_lb" "ecs_alb" {
 
 resource "aws_lb_listener" "ecs_alb_listener" {
  load_balancer_arn = aws_lb.ecs_alb.arn
- port              = 80
+ port              = 5158
  protocol          = "HTTP"
 
  default_action {
@@ -74,7 +81,7 @@ resource "aws_lb_listener" "ecs_alb_listener" {
 
 resource "aws_lb_target_group" "ecs_tg" {
  name        = "ecs-target-group"
- port        = 80
+ port        = 5158
  protocol    = "HTTP"
  target_type = "ip"
  vpc_id      = aws_vpc.main.id
@@ -112,31 +119,60 @@ resource "aws_ecs_cluster_capacity_providers" "example" {
 }
 
 resource "aws_ecs_task_definition" "ecs_task_definition" {
- family             = "my-ecs-task"
- network_mode       = "awsvpc"
- execution_role_arn = "arn:aws:iam::617932910341:role/ecsTaskExecutionRole"
- cpu                = 256
- runtime_platform {
-   operating_system_family = "LINUX"
-   cpu_architecture        = "X86_64"
- }
- container_definitions = jsonencode([
-   {
-     name      = "dockergs"
-     image     = "public.ecr.aws/f9n5f1l7/dgs:latest"
-     cpu       = 256
-     memory    = 512
-     essential = true
-     portMappings = [
-       {
-         containerPort = 80
-         hostPort      = 80
-         protocol      = "tcp"
-       }
-     ]
-   }
- ])
+  family             = "my-ecs-task"
+  network_mode       = "awsvpc"
+  execution_role_arn = "arn:aws:iam::617932910341:role/ecsTaskExecutionRole"
+  cpu                = 256
+  runtime_platform {
+    operating_system_family = "LINUX"
+    cpu_architecture        = "X86_64"
+  }
+
+  container_definitions = jsonencode([
+    {
+      name      = "videoapi-container"
+      image     = "grupo28/videoapi:latest"
+      cpu       = 256
+      memory    = 512
+      essential = true
+      portMappings = [
+        {
+          containerPort = 5158
+          hostPort      = 5158
+          protocol      = "tcp"
+        }
+      ]
+      environment = [
+        {
+          name  = "AWS__Region"
+          value = var.aws_region
+        },
+        {
+          name  = "AWS__AccessKeyId"
+          value = var.aws_access_key_id
+        },
+        {
+          name  = "AWS__SecretAccessKey"
+          value = var.aws_secret_access_key
+        },
+        {
+          name  = "Database__TableName"
+          value = var.database_table_name
+        },
+        {
+          name  = "SQS__QueueUrl"
+          value = var.sqs_queue_url
+        },
+        {
+          name  = "AWSS3__BucketName"
+          value = var.aws_s3_bucket_name
+        }
+      ]
+    }
+  ])
 }
+
+
 
 resource "aws_ecs_service" "ecs_service" {
  name            = "my-ecs-service"
@@ -165,8 +201,8 @@ resource "aws_ecs_service" "ecs_service" {
 
  load_balancer {
    target_group_arn = aws_lb_target_group.ecs_tg.arn
-   container_name   = "dockergs"
-   container_port   = 80
+   container_name   = "videoapi-container"
+   container_port   = 5158
  }
 
  depends_on = [aws_autoscaling_group.ecs_asg]
