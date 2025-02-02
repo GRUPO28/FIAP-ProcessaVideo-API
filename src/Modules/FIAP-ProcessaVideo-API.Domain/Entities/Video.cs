@@ -21,17 +21,22 @@ public class Video : Entity
     [JsonPropertyName("Email")]
     public string Email { get; private set; }
 
+    [JsonPropertyName("UrlZip")] 
+    public string UrlZip { get; private set; } = string.Empty;
+
 
     public Video(string id, string url, StatusProcessamento status, string email) : base(id)
     {
         Url = url;
         Status = status;
         Email = email;
+        
+        Validate();
     }
 
     protected override void Validate()
     {
-        if(!string.IsNullOrWhiteSpace(Url))
+        if(string.IsNullOrWhiteSpace(Url))
         {
             throw new DomainNotificationException("Url não foi informada.");
         }
@@ -41,7 +46,7 @@ public class Video : Entity
             throw new DomainNotificationException("Status inválido.");
         }
 
-        if (!string.IsNullOrWhiteSpace(Email))
+        if (string.IsNullOrWhiteSpace(Email))
         {
             throw new DomainNotificationException("Id do usuário não informado.");
         }
@@ -55,6 +60,16 @@ public class Video : Entity
         }
 
         Status = status;
+    }
+
+    public void AlterarUrlZip(string urlZip)
+    {
+        if (string.IsNullOrWhiteSpace(urlZip))
+        {
+            throw new DomainNotificationException("Url do zip não informada.");
+        }
+        
+        UrlZip = urlZip;
     }
 
 }

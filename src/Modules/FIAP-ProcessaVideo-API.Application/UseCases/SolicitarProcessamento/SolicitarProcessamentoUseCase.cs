@@ -16,12 +16,17 @@ public class SolicitarProcessamentoUseCase(
     private readonly IVideoUploadService _videoUploadService = videoUploadService;
     private readonly ISQSService _sqsService = sqsService;
 
-    private static string[] validEntensions = ["mp4", "mkv"];
+    private static string[] validEntensions = [".mp4", ".mkv"];
 
     public async Task<bool> ExecuteAsync(SolicitarProcessamentoRequest request)
    {
+        if (request.VideoFile == null)
+        { 
+            throw new ApplicationNotificationException("O arquivo não foi informado.");
+        }
+       
         string fileExtension = Path.GetExtension(request.VideoFile.FileName);
-         
+        var teste = !validEntensions.Contains(fileExtension);
         if (string.IsNullOrEmpty(fileExtension) || !validEntensions.Contains(fileExtension))
         {
             throw new ApplicationNotificationException($"O arquivo enviado não possui uma extensão válida. Formatos aceitos: {string.Join(",", validEntensions)}");

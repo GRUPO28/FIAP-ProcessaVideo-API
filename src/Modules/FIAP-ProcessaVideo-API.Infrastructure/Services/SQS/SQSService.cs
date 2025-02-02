@@ -39,7 +39,7 @@ public class SQSService(IAmazonSQS amazonSQS, IOptions<SQSSettings> sqsOptions) 
         }
         catch(Exception ex) 
         {
-            throw new InfrastructureNotificationException("Problema no SQS.");
+            throw new InfrastructureNotificationException("Erro inesperado ao enviar vídeo para a fila.");
         }
        
     }

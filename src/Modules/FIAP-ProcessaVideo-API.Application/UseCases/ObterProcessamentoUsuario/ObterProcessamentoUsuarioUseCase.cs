@@ -23,7 +23,7 @@ namespace FIAP_ProcessaVideo_API.Application.UseCases.ObterProcessamentoUsuario
 
             var listaDeProcessamento = await _videoRepository.GetByUser(email);
 
-            if(listaDeProcessamento == null || listaDeProcessamento.Count < 0)
+            if(listaDeProcessamento == null || listaDeProcessamento.Count == 0)
             {
                 throw new ApplicationNotificationException("Nenhum dado encontrado para o usuário informado.");
             }
