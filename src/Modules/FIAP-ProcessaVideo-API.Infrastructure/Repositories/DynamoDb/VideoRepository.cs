@@ -15,9 +15,6 @@ namespace FIAP_ProcessaVideo_API.Infrastructure.Repositories.DynamoDb;
 
 public class VideoRepository(IAmazonDynamoDB dynamoDB, IOptions<DatabaseSettings> databaseSettings) : IVideoRepository
 {
-    private readonly IAmazonDynamoDB _dynamoDB = dynamoDB;
-    private readonly IOptions<DatabaseSettings> _databaseSettings = databaseSettings;
-
     public async Task<bool> CreateAsync(Video video)
     {
         var videoAsJson = JsonSerializer.Serialize(video);
@@ -27,11 +24,11 @@ public class VideoRepository(IAmazonDynamoDB dynamoDB, IOptions<DatabaseSettings
         var createItemRequest = new PutItemRequest
         {
 
-            TableName = _databaseSettings.Value.TableName,
+            TableName = databaseSettings.Value.TableName,
             Item = itemAsAttributes
         };
 
-        var response = await _dynamoDB.PutItemAsync(createItemRequest);
+        var response = await dynamoDB.PutItemAsync(createItemRequest);
 
         return response.HttpStatusCode == System.Net.HttpStatusCode.OK;
     }
@@ -40,7 +37,7 @@ public class VideoRepository(IAmazonDynamoDB dynamoDB, IOptions<DatabaseSettings
     {
         var request = new QueryRequest
         {
-            TableName = _databaseSettings.Value.TableName,
+            TableName = databaseSettings.Value.TableName,
             IndexName = "EmailIndex",
             KeyConditionExpression = "Email = :email",
             ExpressionAttributeValues = new Dictionary<string, AttributeValue>
@@ -49,7 +46,7 @@ public class VideoRepository(IAmazonDynamoDB dynamoDB, IOptions<DatabaseSettings
             }
         };
 
-        var response = await _dynamoDB.QueryAsync(request);
+        var response = await dynamoDB.QueryAsync(request);
 
         var videos = new List<Video>();
 
@@ -69,14 +66,14 @@ public class VideoRepository(IAmazonDynamoDB dynamoDB, IOptions<DatabaseSettings
     {
         var request = new GetItemRequest
         {
-            TableName = _databaseSettings.Value.TableName,
+            TableName = databaseSettings.Value.TableName,
             Key = new Dictionary<string, AttributeValue>
             {
                 { "Id", new AttributeValue { S = id }}
             }
         };
 
-        var response = await _dynamoDB.GetItemAsync(request);
+        var response = await dynamoDB.GetItemAsync(request);
 
         if (response.Item is null || !response.Item.Any())
         {
@@ -93,14 +90,14 @@ public class VideoRepository(IAmazonDynamoDB dynamoDB, IOptions<DatabaseSettings
     {
         var deleteItemRequest = new DeleteItemRequest
         {
-            TableName = _databaseSettings.Value.TableName,
+            TableName = databaseSettings.Value.TableName,
             Key = new Dictionary<string, AttributeValue>
             {
                 {"id", new AttributeValue { S = id } }
             }
         };
 
-        var response = await _dynamoDB.DeleteItemAsync(deleteItemRequest);
+        var response = await dynamoDB.DeleteItemAsync(deleteItemRequest);
 
         return response.HttpStatusCode == System.Net.HttpStatusCode.OK;
     }

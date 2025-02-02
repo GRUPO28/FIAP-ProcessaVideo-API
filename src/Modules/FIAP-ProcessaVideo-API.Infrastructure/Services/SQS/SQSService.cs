@@ -14,16 +14,13 @@ namespace FIAP_ProcessaVideo_API.Infrastructure.Services.SQS;
 
 public class SQSService(IAmazonSQS amazonSQS, IOptions<SQSSettings> sqsOptions) : ISQSService
 {
-    private readonly IAmazonSQS _amazonSQS = amazonSQS;
-    private readonly IOptions<SQSSettings> _sqsOptions = sqsOptions;
-
     public async Task<bool> SendRequest(Video video)
     {
         try
         {
             var sendMessageRequest = new SendMessageRequest
             {
-                QueueUrl = _sqsOptions.Value.QueueUrl,
+                QueueUrl = sqsOptions.Value.QueueUrl,
                 MessageBody = "Item para fila",
                 MessageAttributes = new Dictionary<string, MessageAttributeValue>
             {
@@ -33,7 +30,7 @@ public class SQSService(IAmazonSQS amazonSQS, IOptions<SQSSettings> sqsOptions) 
             }
             };
 
-            var response = await _amazonSQS.SendMessageAsync(sendMessageRequest);
+            var response = await amazonSQS.SendMessageAsync(sendMessageRequest);
 
             return response.HttpStatusCode == System.Net.HttpStatusCode.OK;
         }
