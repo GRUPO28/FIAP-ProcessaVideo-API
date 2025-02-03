@@ -14,16 +14,19 @@ public class ProcessarVideoController(
     IUseCase<string, bool> reProcessamentoRequest,
     IUseCase<string, List<ObterProcessamentoUsuarioResponse>> obterProcessamento) : BaseController
 {
-    private readonly IUseCase<SolicitarProcessamentoRequest, bool> _processamentoRequest = processamentoRequest;
-    private readonly IUseCase<string, bool> _reProcessamentoRequest = reProcessamentoRequest;
-    private readonly IUseCase<string, List<ObterProcessamentoUsuarioResponse>> _obterProcessamento = obterProcessamento;
-
+    const long maxFileSize = 500 * 1024 * 1024;
+    
     [HttpPost]
     public async Task<ActionResult> Processar([FromForm] SolicitarProcessamentoRequest request)
     {
         try
         {
-            bool response = await _processamentoRequest.ExecuteAsync(request);
+            
+            if (request.VideoFile.Length > maxFileSize)
+            {
+                return BadRequest("Vídeo maior do que o permitido. Máximo 500 MB");
+            }
+            bool response = await processamentoRequest.ExecuteAsync(request);
 
             if (!response)
             {
@@ -48,7 +51,7 @@ public class ProcessarVideoController(
     {
         try
         {
-            bool response = await _reProcessamentoRequest.ExecuteAsync(request);
+            bool response = await reProcessamentoRequest.ExecuteAsync(request);
 
             if (!response)
             {
@@ -73,7 +76,7 @@ public class ProcessarVideoController(
     {
         try
         {
-            var response = await _obterProcessamento.ExecuteAsync(email);
+            var response = await obterProcessamento.ExecuteAsync(email);
 
             if(response is null || response.Count < 1)
             {

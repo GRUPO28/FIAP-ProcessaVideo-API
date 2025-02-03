@@ -12,8 +12,6 @@ namespace FIAP_ProcessaVideo_API.Application.UseCases.ObterProcessamentoUsuario
 {
     public class ObterProcessamentoUsuarioUseCase(IVideoRepository videoRepository) : IUseCase<string, List<ObterProcessamentoUsuarioResponse>>
     {
-        private readonly IVideoRepository _videoRepository = videoRepository;
-
         public async Task<List<ObterProcessamentoUsuarioResponse>> ExecuteAsync(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -21,7 +19,7 @@ namespace FIAP_ProcessaVideo_API.Application.UseCases.ObterProcessamentoUsuario
                 throw new ApplicationNotificationException("Usuário não informado.");
             }
 
-            var listaDeProcessamento = await _videoRepository.GetByUser(email);
+            var listaDeProcessamento = await videoRepository.GetByUser(email);
 
             if(listaDeProcessamento == null || listaDeProcessamento.Count == 0)
             {

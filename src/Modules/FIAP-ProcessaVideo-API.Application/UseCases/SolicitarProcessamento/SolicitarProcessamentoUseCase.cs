@@ -12,10 +12,6 @@ public class SolicitarProcessamentoUseCase(
     IVideoUploadService videoUploadService,
     ISQSService sqsService) : IUseCase<SolicitarProcessamentoRequest, bool>
 {
-    private readonly IVideoRepository _videoRepository = videoRepository;
-    private readonly IVideoUploadService _videoUploadService = videoUploadService;
-    private readonly ISQSService _sqsService = sqsService;
-
     private static string[] validEntensions = [".mp4", ".mkv"];
 
     public async Task<bool> ExecuteAsync(SolicitarProcessamentoRequest request)
@@ -37,14 +33,14 @@ public class SolicitarProcessamentoUseCase(
 
         using (var videoStream = request.VideoFile.OpenReadStream())
         {
-            videoUrl = await _videoUploadService.UploadVideoAsync(videoStream, fileName, request.VideoFile.ContentType);
+            videoUrl = await videoUploadService.UploadVideoAsync(videoStream, fileName, request.VideoFile.ContentType);
         }
 
         Video video = new Video(null, url:videoUrl, status: Domain.Enums.StatusProcessamento.Aguardando, email: httpUserAccessor.Email);
 
-        var repositoryResponse = await _videoRepository.CreateAsync(video);
+        var repositoryResponse = await videoRepository.CreateAsync(video);
 
-        var sqsResponse = await _sqsService.SendRequest(video);
+        var sqsResponse = await sqsService.SendRequest(video);
 
         return sqsResponse;
    }
