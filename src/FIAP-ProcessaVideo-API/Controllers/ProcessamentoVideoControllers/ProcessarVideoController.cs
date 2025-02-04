@@ -47,11 +47,11 @@ public class ProcessarVideoController(
     }
 
     [HttpPut("reprocessar")]
-    public async Task<ActionResult> ReProcessar([FromQuery] string request)
+    public async Task<ActionResult> ReProcessar([FromQuery] string identificador)
     {
         try
         {
-            bool response = await reProcessamentoRequest.ExecuteAsync(request);
+            bool response = await reProcessamentoRequest.ExecuteAsync(identificador);
 
             if (!response)
             {
