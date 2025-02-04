@@ -1,6 +1,7 @@
 ﻿using FIAP_ProcessaVideo_API.Application.Abstractions;
 using FIAP_ProcessaVideo_API.Application.UseCases.ObterProcessamentoUsuario;
 using FIAP_ProcessaVideo_API.Application.UseCases.SolicitarProcessamento;
+using FIAP_ProcessaVideo_API.Common.Abstractions;
 using FIAP_ProcessaVideo_API.Common.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ namespace FIAP_ProcessaVideo_API.Controllers.ProcessamentoVideoControllers;
 [Authorize]
 [Route("api/processar")]
 public class ProcessarVideoController(
+    IHttpUserAccessor httpUserAccessor,
     IUseCase<SolicitarProcessamentoRequest, bool> processamentoRequest, 
     IUseCase<string, bool> reProcessamentoRequest,
     IUseCase<string, List<ObterProcessamentoUsuarioResponse>> obterProcessamento) : BaseController
@@ -72,11 +74,11 @@ public class ProcessarVideoController(
     }
 
     [HttpGet("filaUsuario")]
-    public async Task<ActionResult> ObterFilaUsuario([FromQuery] string email)
+    public async Task<ActionResult> ObterFilaUsuario()
     {
         try
         {
-            var response = await obterProcessamento.ExecuteAsync(email);
+            var response = await obterProcessamento.ExecuteAsync(httpUserAccessor.Email);
 
             if(response is null || response.Count < 1)
             {
