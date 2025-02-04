@@ -59,7 +59,7 @@ Para acessar a documentação referente a lambda do projeto, vá para o reposit�
 
 **Links Úteis**
 
-- [Postman](https://www.postman.com/altimetry-astronomer-96690638/workspace/tech-challenge-7soat)
+- [Postman](https://tech-challenge.postman.co/workspace/FIAP---PROCESSA-VIDEO~41c1e468-80be-450e-b849-373328d74dbb/collection/40057612-d177ce8f-e675-4dcd-864c-b5cd2d6d563c?action=share&creator=40057612)
 
 ## 3.1 Rodar o projeto via Docker
 
