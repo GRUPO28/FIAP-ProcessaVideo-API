@@ -10,7 +10,9 @@ namespace FIAP_ProcessaVideo_API.Application.UseCases.ObterProcessamentoUsuario;
 
 public class ObterProcessamentoUsuarioResponse
 {
+    public string Identificador { get; set; }
     public string Video { get; set; }
     public StatusProcessamento Status { get; set; }
     public string Email { get; set; }
+    public string Zip { get; set; }
 }

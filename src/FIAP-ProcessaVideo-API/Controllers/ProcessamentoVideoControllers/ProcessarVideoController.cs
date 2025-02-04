@@ -1,6 +1,7 @@
 ﻿using FIAP_ProcessaVideo_API.Application.Abstractions;
 using FIAP_ProcessaVideo_API.Application.UseCases.ObterProcessamentoUsuario;
 using FIAP_ProcessaVideo_API.Application.UseCases.SolicitarProcessamento;
+using FIAP_ProcessaVideo_API.Common.Abstractions;
 using FIAP_ProcessaVideo_API.Common.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,20 +11,24 @@ namespace FIAP_ProcessaVideo_API.Controllers.ProcessamentoVideoControllers;
 [Authorize]
 [Route("api/processar")]
 public class ProcessarVideoController(
+    IHttpUserAccessor httpUserAccessor,
     IUseCase<SolicitarProcessamentoRequest, bool> processamentoRequest, 
     IUseCase<string, bool> reProcessamentoRequest,
     IUseCase<string, List<ObterProcessamentoUsuarioResponse>> obterProcessamento) : BaseController
 {
-    private readonly IUseCase<SolicitarProcessamentoRequest, bool> _processamentoRequest = processamentoRequest;
-    private readonly IUseCase<string, bool> _reProcessamentoRequest = reProcessamentoRequest;
-    private readonly IUseCase<string, List<ObterProcessamentoUsuarioResponse>> _obterProcessamento = obterProcessamento;
-
+    const long maxFileSize = 130 * 1024 * 1024;
+    
     [HttpPost]
     public async Task<ActionResult> Processar([FromForm] SolicitarProcessamentoRequest request)
     {
         try
         {
-            bool response = await _processamentoRequest.ExecuteAsync(request);
+            
+            if (request.VideoFile.Length > maxFileSize)
+            {
+                return BadRequest("Vídeo maior do que o permitido. Máximo 130 MB");
+            }
+            bool response = await processamentoRequest.ExecuteAsync(request);
 
             if (!response)
             {
@@ -44,11 +49,11 @@ public class ProcessarVideoController(
     }
 
     [HttpPut("reprocessar")]
-    public async Task<ActionResult> ReProcessar([FromQuery] string request)
+    public async Task<ActionResult> ReProcessar([FromQuery] string identificador)
     {
         try
         {
-            bool response = await _reProcessamentoRequest.ExecuteAsync(request);
+            bool response = await reProcessamentoRequest.ExecuteAsync(identificador);
 
             if (!response)
             {
@@ -69,11 +74,11 @@ public class ProcessarVideoController(
     }
 
     [HttpGet("filaUsuario")]
-    public async Task<ActionResult> ObterFilaUsuario([FromQuery] string email)
+    public async Task<ActionResult> ObterFilaUsuario()
     {
         try
         {
-            var response = await _obterProcessamento.ExecuteAsync(email);
+            var response = await obterProcessamento.ExecuteAsync(httpUserAccessor.Email);
 
             if(response is null || response.Count < 1)
             {
