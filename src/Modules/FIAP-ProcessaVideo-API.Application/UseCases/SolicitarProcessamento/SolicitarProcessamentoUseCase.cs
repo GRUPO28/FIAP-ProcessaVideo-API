@@ -22,13 +22,14 @@ public class SolicitarProcessamentoUseCase(
         }
        
         string fileExtension = Path.GetExtension(request.VideoFile.FileName);
-        var teste = !validEntensions.Contains(fileExtension);
+        string originalFileName = Path.GetFileNameWithoutExtension(request.VideoFile.FileName);
+        string safeFileName = originalFileName.Length > 20 ? originalFileName[..20] : originalFileName;
+        
         if (string.IsNullOrEmpty(fileExtension) || !validEntensions.Contains(fileExtension))
         {
             throw new ApplicationNotificationException($"O arquivo enviado não possui uma extensão válida. Formatos aceitos: {string.Join(",", validEntensions)}");
         }
-
-        var fileName = $"{Guid.NewGuid()}{fileExtension}";
+        var fileName = $"{Guid.NewGuid().ToString("N")[..5]}-{safeFileName}{fileExtension}";
         string videoUrl = "";
 
         using (var videoStream = request.VideoFile.OpenReadStream())
