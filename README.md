@@ -37,19 +37,23 @@ Desenvolvido de uma aplicação utilizando as seguintes tecnologias:
 
 - Arquitetura: DDD + Clean Architecture
 - Linguagem: C# (.NET)
+- Autenticação : Cognito
+- Fila: SQS
 - Banco de dados: DynamoDB
 - Cloud: AWS
 - Testes: BDD + SpecFlow
+
+Entre outras que podem ser vistas no nosso diagramas, <strong>ponto 2.2 Arquitetura</strong>
 
 
 ## 2.1 Vídeo de apresentação do projeto
 ## [Link para o vídeo](https://youtu.be/BmOhPfFHHNM?si=_AlrYWsA-HPdZXII)
 
-## 2.4 Arquitetura
+## 2.2 Arquitetura
 
 ![Arquitetura](./assets/hackathon-diagrama.jpg)
 
-## 2.4 Documentações extras
+## 2.3 Documentações extras
 
 Para acessar a documentação referente a infraestrutura do projeto, vá para o repositório [FIAP-ProcessaVideo-Infra](https://github.com/GRUPO28/FIAP-ProcessaVideo-Infra)
 
