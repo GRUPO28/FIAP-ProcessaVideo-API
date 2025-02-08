@@ -47,7 +47,7 @@ Desenvolvido de uma aplicação utilizando as seguintes tecnologias:
 
 ## 2.4 Arquitetura
 
-![Arquitetura](./assets/hackathon.png)
+![Arquitetura](./assets/hackathon-diagrama.jpg)
 
 ## 2.4 Documentações extras
 
