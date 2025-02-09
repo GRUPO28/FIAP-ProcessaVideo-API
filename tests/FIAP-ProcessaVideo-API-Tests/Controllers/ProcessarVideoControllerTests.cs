@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
+namespace FIAP_ProcessaVideo_API_Tests.Controllers;
+
 public class ProcessarVideoControllerTests
 {
     private readonly Mock<IHttpUserAccessor> _httpUserAccessorMock;
@@ -45,7 +47,7 @@ public class ProcessarVideoControllerTests
         var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
 
         // Verificando se a mensagem de erro é a esperada
-        Assert.Contains("Vídeo maior do que o permitido. Máximo 130 MB", badRequestResult.Value.ToString());
+        Assert.Contains("Vídeo maior do que o permitido. Máximo 130 MB", badRequestResult.Value?.ToString());
     }
     
     [Fact]
