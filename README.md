@@ -61,6 +61,8 @@ Para acessar a documentação referente a lambda do projeto, vá para o reposit�
 
 # 3. Utilização
 
+**Lembre-se de fazer o cadastro no cognito para utilizar o projeto.**
+
 **Links Úteis**
 
 - [Postman](https://tech-challenge.postman.co/workspace/FIAP---PROCESSA-VIDEO~41c1e468-80be-450e-b849-373328d74dbb/collection/40057612-d177ce8f-e675-4dcd-864c-b5cd2d6d563c?action=share&creator=40057612)
