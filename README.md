@@ -59,6 +59,8 @@ Para acessar a documentação referente a infraestrutura do projeto, vá para o 
 
 Para acessar a documentação referente a lambda do projeto, vá para o repositório [FIAP-ProcessaVideo-Lambda](https://github.com/GRUPO28/FIAP-ProcessaVideo-Lambda)
 
+## 2.4 EventStorming
+### [Documento](https://miro.com/welcomeonboard/Z3FsRjZoUlhZOUw1cnF6cGFDc2xQUlVUbHdacDltVnJnYzdvckVsbFVkL0FLd09vWStJZ0RCbU9tZ29MR3ROaWU1OHFYbDJ0RDR3cXJBQWJ4YVU5ZmsxQWJjUnNFUE16d09WR2x3NnBuNU5iWUFsaWtrU1RFeWg4TjFCM2RXZGFNakdSWkpBejJWRjJhRnhhb1UwcS9BPT0hdjE=?share_link_id=459836155496)
 # 3. Utilização
 
 **Lembre-se de fazer o cadastro no cognito para utilizar o projeto. Depois obtenha também o token fazendo login.**
