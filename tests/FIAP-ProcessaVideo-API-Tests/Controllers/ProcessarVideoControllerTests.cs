@@ -88,7 +88,7 @@ public class ProcessarVideoControllerTests
     public async Task ReProcessar_ShouldReturnOk_WhenReprocessSucceeds()
     {
         // Arrange
-        var identificador = "some-identificador";
+        var identificador = "identificador";
         _reProcessamentoRequestMock
             .Setup(x => x.ExecuteAsync(identificador))
             .ReturnsAsync(true); // Simula sucesso no reprocessamento
