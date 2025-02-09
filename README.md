@@ -61,7 +61,7 @@ Para acessar a documentação referente a lambda do projeto, vá para o reposit�
 
 # 3. Utilização
 
-**Lembre-se de fazer o cadastro no cognito para utilizar o projeto.**
+**Lembre-se de fazer o cadastro no cognito para utilizar o projeto. Depois obtenha também o token fazendo login.**
 
 **Links Úteis**
 
