@@ -34,7 +34,7 @@ public class VideoSteps
     {
         try
         {
-            var video = new Video(id: null ,email: _email, url: _url, status: _status);
+            var video = new Video(id: null ,email: _email, url: _url, status: _status, urlZip: string.Empty);
         }
         catch (Exception ex)
         {

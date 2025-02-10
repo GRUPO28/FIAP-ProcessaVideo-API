@@ -32,7 +32,7 @@ namespace FIAP_ProcessaVideo_API_Tests.Steps.UseCases
         [Given(@"a video with ID ""(.*)"" exists in the repository")]
         public void GivenAVideoWithIdExistsInTheRepository(string id)
         {
-            var video = new Video(id, "http://example.com/video.mp4", StatusProcessamento.Pronto, "user@example.com");
+            var video = new Video(id, "http://example.com/video.mp4", StatusProcessamento.Pronto, "user@example.com", urlZip: "http://example.com/video.mp4");
             _videoRepositoryMock.Setup(repo => repo.GetById(id)).ReturnsAsync(video);
         }
 

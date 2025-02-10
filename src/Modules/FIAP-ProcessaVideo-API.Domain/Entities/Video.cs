@@ -25,11 +25,12 @@ public class Video : Entity
     public string UrlZip { get; private set; } = string.Empty;
 
 
-    public Video(string id, string url, StatusProcessamento status, string email) : base(id)
+    public Video(string id, string url, StatusProcessamento status, string email, string urlZip) : base(id)
     {
         Url = url;
         Status = status;
         Email = email;
+        UrlZip = urlZip;
         
         Validate();
     }

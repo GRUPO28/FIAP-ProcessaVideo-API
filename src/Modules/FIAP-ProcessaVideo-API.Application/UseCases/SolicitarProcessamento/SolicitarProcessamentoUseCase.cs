@@ -37,7 +37,7 @@ public class SolicitarProcessamentoUseCase(
             videoUrl = await videoUploadService.UploadVideoAsync(videoStream, fileName, request.VideoFile.ContentType);
         }
 
-        Video video = new Video(null, url:videoUrl, status: Domain.Enums.StatusProcessamento.Aguardando, email: httpUserAccessor.Email);
+        Video video = new Video(null, url:videoUrl, status: Domain.Enums.StatusProcessamento.Aguardando, email: httpUserAccessor.Email, string.Empty);
 
         var repositoryResponse = await videoRepository.CreateAsync(video);
 

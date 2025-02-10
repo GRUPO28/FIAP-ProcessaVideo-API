@@ -39,8 +39,8 @@ namespace FIAP_ProcessaVideo_API_Tests.Features.UseCases
         public static async System.Threading.Tasks.Task FeatureSetupAsync()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunnerForAssembly(null, TechTalk.SpecFlow.xUnit.SpecFlowPlugin.XUnitParallelWorkerTracker.Instance.GetWorkerId());
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/UseCases", "User processing queue request", "As a user of the system\nI want to sibmit a request for see my queue\nSo i can see " +
-                    "all my process situation", ProgrammingLanguage.CSharp, featureTags);
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/UseCases", "User processing queue request", "As a user of the system\r\nI want to sibmit a request for see my queue\r\nSo i can se" +
+                    "e all my process situation", ProgrammingLanguage.CSharp, featureTags);
             await testRunner.OnFeatureStartAsync(featureInfo);
         }
         
