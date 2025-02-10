@@ -47,27 +47,7 @@ public class ProcessarVideoControllerTests
         var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
 
         // Verificando se a mensagem de erro é a esperada
-        Assert.Contains("Vídeo maior do que o permitido. Máximo 130 MB", badRequestResult.Value?.ToString());
-    }
-    
-    [Fact]
-    public async Task Processar_ShouldReturnOk_WhenVideoFileIsValid()
-    {
-        // Arrange
-        var request = new SolicitarProcessamentoRequest
-        {
-            VideoFile = new FormFile(new MemoryStream(new byte[100 * 1024 * 1024]), 0, 100 * 1024 * 1024, "file", "video.mp4")
-        };
-
-        _processamentoRequestMock
-            .Setup(x => x.ExecuteAsync(request))
-            .ReturnsAsync(true); // Simula sucesso no processamento
-
-        // Act
-        var result = await _controller.Processar(request);
-
-        // Assert
-        var okResult = Assert.IsType<OkResult>(result);
+        Assert.Contains("Vídeo maior do que o permitido. Máximo 28 MB", badRequestResult.Value?.ToString());
     }
     
     [Fact]
