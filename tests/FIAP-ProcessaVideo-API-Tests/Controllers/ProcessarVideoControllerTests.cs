@@ -47,7 +47,7 @@ public class ProcessarVideoControllerTests
         var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
 
         // Verificando se a mensagem de erro é a esperada
-        Assert.Contains("Vídeo maior do que o permitido. Máximo 28 MB", badRequestResult.Value?.ToString());
+        Assert.Contains("Vídeo maior do que o permitido. Máximo 10 MB", badRequestResult.Value?.ToString());
     }
     
     [Fact]
