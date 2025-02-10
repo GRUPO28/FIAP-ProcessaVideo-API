@@ -47,7 +47,7 @@ Entre outras que podem ser vistas no nosso diagramas, <strong>ponto 2.2 Arquitet
 
 
 ## 2.1 Vídeo de apresentação do projeto
-## [Link para o vídeo](https://youtu.be/BmOhPfFHHNM?si=_AlrYWsA-HPdZXII)
+## [Link para o vídeo](https://www.youtube.com/watch?v=4K4dPU7XRlw)
 
 ## 2.2 Arquitetura
 
