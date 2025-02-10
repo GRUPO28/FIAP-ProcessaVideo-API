@@ -1,4 +1,4 @@
-﻿using FIAP_ProcessaVideo_API.Application.Abstractions;
+using FIAP_ProcessaVideo_API.Application.Abstractions;
 using FIAP_ProcessaVideo_API.Application.UseCases.ObterProcessamentoUsuario;
 using FIAP_ProcessaVideo_API.Application.UseCases.SolicitarProcessamento;
 using FIAP_ProcessaVideo_API.Common.Abstractions;
@@ -16,7 +16,7 @@ public class ProcessarVideoController(
     IUseCase<string, bool> reProcessamentoRequest,
     IUseCase<string, List<ObterProcessamentoUsuarioResponse>> obterProcessamento) : BaseController
 {
-    const long maxFileSize = 130 * 1024 * 1024;
+    const long maxFileSize = 28 * 1024 * 1024;
     
     [HttpPost]
     public async Task<ActionResult> Processar([FromForm] SolicitarProcessamentoRequest request)
@@ -26,7 +26,7 @@ public class ProcessarVideoController(
             
             if (request.VideoFile.Length > maxFileSize)
             {
-                return BadRequest("Vídeo maior do que o permitido. Máximo 130 MB");
+                return BadRequest("Vídeo maior do que o permitido. Máximo 28 MB");
             }
             bool response = await processamentoRequest.ExecuteAsync(request);
 
