@@ -39,8 +39,8 @@ namespace FIAP_ProcessaVideo_API_Tests.Features.UseCases
         public static async System.Threading.Tasks.Task FeatureSetupAsync()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunnerForAssembly(null, TechTalk.SpecFlow.xUnit.SpecFlowPlugin.XUnitParallelWorkerTracker.Instance.GetWorkerId());
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/UseCases", "Video Processing Request", "As a user of the system\nI want to submit a video file for processing\nSo that the " +
-                    "video can be stored and queued for further processing", ProgrammingLanguage.CSharp, featureTags);
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/UseCases", "Video Processing Request", "As a user of the system\r\nI want to submit a video file for processing\r\nSo that th" +
+                    "e video can be stored and queued for further processing", ProgrammingLanguage.CSharp, featureTags);
             await testRunner.OnFeatureStartAsync(featureInfo);
         }
         

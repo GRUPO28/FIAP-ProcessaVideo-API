@@ -39,8 +39,8 @@ namespace FIAP_ProcessaVideo_API_Tests.Features.UseCases
         public static async System.Threading.Tasks.Task FeatureSetupAsync()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunnerForAssembly(null, TechTalk.SpecFlow.xUnit.SpecFlowPlugin.XUnitParallelWorkerTracker.Instance.GetWorkerId());
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/UseCases", "Solicitar Reprocessamento de Vídeo", "As a user\nI want to request video reprocessing\nSo that I can reprocess a video th" +
-                    "at needs to be re-analyzed", ProgrammingLanguage.CSharp, featureTags);
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/UseCases", "Solicitar Reprocessamento de Vídeo", "As a user\r\nI want to request video reprocessing\r\nSo that I can reprocess a video " +
+                    "that needs to be re-analyzed", ProgrammingLanguage.CSharp, featureTags);
             await testRunner.OnFeatureStartAsync(featureInfo);
         }
         
